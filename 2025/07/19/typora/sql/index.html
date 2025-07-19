@@ -1,0 +1,1895 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Yinjin Yao的个人笔记 | Yinjin Yao的个人笔记</title><meta name="author" content="Yinjin Yao"><meta name="copyright" content="Yinjin Yao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="SQL基础-DQL  查询语句语法1select * from emp;    select : SQL查询语句关键字，放在整个语句开头，后跟查询的内容。 from: 到哪里去查询，后跟需要查询的表名称。  PS：  SQL语句对大小写不敏感，所有关键字和符号使用空格或回车进行分割，没有固定的代码格式，一段完整的代码结束使用分号作为结束符号。  别名12345678select t.empno 员">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yinjin Yao的个人笔记">
+<meta property="og:url" content="https://cryingatnight.github.io/2025/07/19/typora/sql/index.html">
+<meta property="og:site_name" content="Yinjin Yao的个人笔记">
+<meta property="og:description" content="SQL基础-DQL  查询语句语法1select * from emp;    select : SQL查询语句关键字，放在整个语句开头，后跟查询的内容。 from: 到哪里去查询，后跟需要查询的表名称。  PS：  SQL语句对大小写不敏感，所有关键字和符号使用空格或回车进行分割，没有固定的代码格式，一段完整的代码结束使用分号作为结束符号。  别名12345678select t.empno 员">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cryingatnight.github.io/img/lita4.jpg">
+<meta property="article:published_time" content="2025-07-19T15:30:40.087Z">
+<meta property="article:modified_time" content="2025-07-15T09:28:25.983Z">
+<meta property="article:author" content="Yinjin Yao">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cryingatnight.github.io/img/lita4.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "url": "https://cryingatnight.github.io/2025/07/19/typora/sql/",
+  "image": "https://cryingatnight.github.io/img/lita4.jpg",
+  "datePublished": "2025-07-19T15:30:40.087Z",
+  "dateModified": "2025-07-15T09:28:25.983Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Yinjin Yao",
+      "url": "https://cryingatnight.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/headimage.png"><link rel="canonical" href="https://cryingatnight.github.io/2025/07/19/typora/sql/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Yinjin Yao的个人笔记',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/headimage.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-flask"></i><span> 实验室</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="http://121.199.61.105/"><i class="fa-fw fas fa-q"></i><span> 豆瓣网开发</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fuckornot.on.websim.com/"><i class="fa-fw fa fa-trophy"></i><span> 上不上AI评分系统</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fontawesome.com/icons"><i class="fa-fw fa fa-check-circle"></i><span> font-awesome v6 图标</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/lita4.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/headimage.png" alt="Logo"><span class="site-name">Yinjin Yao的个人笔记</span></a><a class="nav-page-title" href="/"><span class="site-name">Yinjin Yao的个人笔记</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-flask"></i><span> 实验室</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="http://121.199.61.105/"><i class="fa-fw fas fa-q"></i><span> 豆瓣网开发</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fuckornot.on.websim.com/"><i class="fa-fw fa fa-trophy"></i><span> 上不上AI评分系统</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fontawesome.com/icons"><i class="fa-fw fa fa-check-circle"></i><span> font-awesome v6 图标</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">无标题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-07-19T15:30:40.087Z" title="发表于 2025-07-19 23:30:40">2025-07-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-07-15T09:28:25.983Z" title="更新于 2025-07-15 17:28:25">2025-07-15</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="SQL基础-DQL"><a href="#SQL基础-DQL" class="headerlink" title="SQL基础-DQL"></a>SQL基础-DQL</h1><hr>
+<hr>
+<h2 id="查询语句语法"><a href="#查询语句语法" class="headerlink" title="查询语句语法"></a>查询语句语法</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp; </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>select : SQL查询语句关键字，放在整个语句开头，后跟查询的内容。</li>
+<li>from: 到哪里去查询，后跟需要查询的表名称。<br>  PS：<br>  SQL语句对大小写不敏感，所有关键字和符号使用空格或回车进行分割，没有固定的代码格式，一段完整的代码结束使用分号作为结束符号。</li>
+</ul>
+<h3 id="别名"><a href="#别名" class="headerlink" title="别名"></a>别名</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> t.empno 员工编号,</span><br><span class="line">       t.ename 员工姓名,</span><br><span class="line">       t.job 员工工作,</span><br><span class="line">       t.mgr 上级编号,</span><br><span class="line">       t.hiredate 入职时间,</span><br><span class="line">       t.sal 工资,</span><br><span class="line">       t.comm 奖金,</span><br><span class="line">       t.deptno 部门编号 <span class="keyword">from</span> emp t ;</span><br></pre></td></tr></table></figure>
+
+<p>在表名或者列名的后面加入<code>as </code>关键字 能够给表或列取别名（<code>as 关键字可以省略直接使用 空格进行分割</code>）通过别名 能够在PL&#x2F;SQL 开发工具中实现快速输入列名的目的。</p>
+<h3 id="四则运算符"><a href="#四则运算符" class="headerlink" title="四则运算符"></a>四则运算符</h3><table>
+<thead>
+<tr>
+<th>符号</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+</td>
+<td>加号</td>
+</tr>
+<tr>
+<td>-</td>
+<td>减号</td>
+</tr>
+<tr>
+<td>*</td>
+<td>乘号</td>
+</tr>
+<tr>
+<td>&#x2F;</td>
+<td>除号</td>
+</tr>
+<tr>
+<td>()</td>
+<td>括号</td>
+</tr>
+<tr>
+<td>&#124; &#124;</td>
+<td>连接符</td>
+</tr>
+</tbody></table>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--显示所有员工的工资，奖金，年薪，总薪酬和转正日期</span></span><br><span class="line"><span class="keyword">select</span> ename,sal,comm,sal<span class="operator">*</span><span class="number">12</span>,sal<span class="operator">+</span>nvl(comm,<span class="number">0</span>),hiredate<span class="operator">+</span><span class="number">90</span> <span class="keyword">from</span> emp;</span><br></pre></td></tr></table></figure>
+
+<p>在SQL中可以直接对列进行加减乘除</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--我叫* 我的工资是*元，我的工作是*</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="string">&#x27;我叫&#x27;</span><span class="operator">||</span>ename<span class="operator">||</span><span class="string">&#x27;,我的工资&#x27;</span><span class="operator">||</span>sal<span class="operator">||</span><span class="string">&#x27;元，我的&#x27;&#x27;工作是&#x27;</span><span class="operator">||</span>job <span class="keyword">from</span> emp;</span><br></pre></td></tr></table></figure>
+<p>通过使用<code>||</code> 对字符串进行拼接显示结果：</p>
+<blockquote>
+<p>1	我叫SMITH,我的工资1787.44元，我的’工作是CLERK</p>
+</blockquote>
+<h3 id="去重复值"><a href="#去重复值" class="headerlink" title="去重复值"></a>去重复值</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> job <span class="keyword">from</span> emp;</span><br></pre></td></tr></table></figure>
+
+<p>在select 后使用<code>distinct</code>关键字 实现对查询结果重复值的去除。</p>
+<h3 id="where-子句"><a href="#where-子句" class="headerlink" title="where 子句"></a>where 子句</h3><table>
+<thead>
+<tr>
+<th>比较符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&gt;</td>
+<td>大于</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小于</td>
+</tr>
+<tr>
+<td>&gt;&#x3D;</td>
+<td>大于等于</td>
+</tr>
+<tr>
+<td>&lt;&#x3D;</td>
+<td>小于等于</td>
+</tr>
+<tr>
+<td>&lt;&gt; 或!&#x3D;</td>
+<td>不等于</td>
+</tr>
+<tr>
+<td>any</td>
+<td>任意一个</td>
+</tr>
+<tr>
+<td>all</td>
+<td>所有</td>
+</tr>
+</tbody></table>
+<blockquote>
+</blockquote>
+<p>通过以上符号实现在where子句中对数据进行筛选</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ename,sal <span class="keyword">from</span> emp <span class="keyword">where</span> sal <span class="operator">&gt;</span><span class="number">1500</span>;</span><br><span class="line"><span class="keyword">select</span> ename,sal <span class="keyword">from</span> emp <span class="keyword">where</span> ename <span class="operator">=</span><span class="string">&#x27;SMITH&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>x  and y</td>
+<td>x和y 都为true 时返回true</td>
+</tr>
+<tr>
+<td>x  or  y</td>
+<td>x和y 有一个为true时返回 true</td>
+</tr>
+<tr>
+<td>not x</td>
+<td>如果x为false则返回 true，否则返回false</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>like</td>
+<td>模糊查询，% 和_配合使用</td>
+<td>like ‘A%’  or like ‘_A%’</td>
+</tr>
+<tr>
+<td>in</td>
+<td>查询列表值</td>
+<td>in (‘值1’,’值2’,’值3’)</td>
+</tr>
+<tr>
+<td>between</td>
+<td>取范围值</td>
+<td>between  小数  and  大数</td>
+</tr>
+<tr>
+<td>is null</td>
+<td>列为空</td>
+<td>列名  is null  &#x3D;’’</td>
+</tr>
+</tbody></table>
+<p>例题：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--查询姓名第二个字母为A的员工</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> ename <span class="keyword">like</span> <span class="string">&#x27;_A%&#x27;</span>;</span><br><span class="line"><span class="comment">--查询工作为MANAGER和clerk的员工姓名</span></span><br><span class="line"><span class="keyword">select</span> ename <span class="keyword">from</span> emp <span class="keyword">where</span> job <span class="keyword">in</span> (<span class="string">&#x27;MANAGER&#x27;</span>,<span class="string">&#x27;CLERK&#x27;</span>);</span><br><span class="line"><span class="comment">--查询工资在1000 至1500的员工信息</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> sal <span class="keyword">between</span> <span class="number">1000</span> <span class="keyword">and</span> <span class="number">1500</span>;</span><br><span class="line"><span class="comment">--查询所有没有奖金的员工信息</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> comm <span class="keyword">is</span> <span class="keyword">null</span>;</span><br><span class="line"><span class="comment">--工资在1500以下到2500 以上的人员信息</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span>  <span class="keyword">from</span> emp <span class="keyword">where</span> sal <span class="keyword">not</span> <span class="keyword">between</span> <span class="number">1500</span> <span class="keyword">and</span> <span class="number">2500</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--使用工资进行排序</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp  <span class="keyword">order</span> <span class="keyword">by</span> sal;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>排序时先使用第一列进行排序，当第一列排序时为并列使用第二列进行排序</p>
+</li>
+<li><p>使用desc进行降序排序，默认系统使用asc 进行升序排序</p>
+</li>
+<li><p>可使用数字1、2、3等来指代列名进行排序</p>
+</li>
+</ul>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="数据类型转换函数"><a href="#数据类型转换函数" class="headerlink" title="数据类型转换函数"></a>数据类型转换函数</h3><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>函数说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>to_char()</strong></td>
+<td>字符串转换</td>
+<td>to_char(hiredate,’yyyymmdd’)</td>
+</tr>
+<tr>
+<td><strong>to_number()</strong></td>
+<td>数值转换</td>
+<td>to_number(C999999)</td>
+</tr>
+<tr>
+<td><strong>to_date()</strong></td>
+<td>日期转换</td>
+<td>to_date(20210922,’yyyymmdd’)</td>
+</tr>
+</tbody></table>
+<p>NLS_LANG&#x3D;SIMPLIFIED CHINESE_CHINA.ZHS16GBK</p>
+<p>NLS_LANG&#x3D;AMERICAN_AMERICA.UTF8</p>
+<h4 id="数据转换格式"><a href="#数据转换格式" class="headerlink" title="数据转换格式"></a>数据转换格式</h4><table>
+<thead>
+<tr>
+<th>格式类型</th>
+<th>格式符</th>
+<th>格式说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>日期类</td>
+<td>CC    SCC</td>
+<td>世纪</td>
+<td>to_char(sysdate,’cc’)   to_char(sysdate,’scc’)</td>
+</tr>
+<tr>
+<td>日期类</td>
+<td>YYYY    RRRR</td>
+<td>年</td>
+<td>to_char(sysdate,’yyyy’) to_char(sysdate,’RRRR’)</td>
+</tr>
+<tr>
+<td>日期类</td>
+<td>Q</td>
+<td>季度</td>
+<td>to_char(sysdate,’Q’)</td>
+</tr>
+<tr>
+<td>日期类</td>
+<td>MM   MON  MONTH</td>
+<td>月</td>
+<td>to_char(sysdate,’MM’)   to_char(sysdate,’MON’)  to_char(sysdate,’MONTH’)</td>
+</tr>
+<tr>
+<td>日期类</td>
+<td>WW  W</td>
+<td>周</td>
+<td>to_char(sysdate,’ww’)   to_char(sysdate,’w’)</td>
+</tr>
+<tr>
+<td>日期类</td>
+<td>DDD   DD  D</td>
+<td>日</td>
+<td>to_char(sysdate,’DDD’)   to_char(sysdate,’DD’)  to_char(sysdate,’D’)</td>
+</tr>
+<tr>
+<td>日期类</td>
+<td>HH24   HH AM</td>
+<td>时</td>
+<td>to_char(sysdate,’HH24’)</td>
+</tr>
+<tr>
+<td>日期类</td>
+<td>MI</td>
+<td>分</td>
+<td>to_char(sysdate,’MI’)</td>
+</tr>
+<tr>
+<td>日期类</td>
+<td>SS   FF</td>
+<td>秒</td>
+<td>to_char(sysdate,’SS’)    to_char(sysdate,’FF9’)</td>
+</tr>
+<tr>
+<td>数字类</td>
+<td>B</td>
+<td>添加空格</td>
+<td>to_char(12345,’B999999’)</td>
+</tr>
+<tr>
+<td>数字类</td>
+<td>C</td>
+<td>添加国际货币符号</td>
+<td>to_char(12345,’C999999’) &#x3D;CNY12345</td>
+</tr>
+<tr>
+<td>数字类</td>
+<td>D</td>
+<td>添加小数位数同‘.’</td>
+<td>to_char(12345,’99999D9’) &#x3D;12345.0</td>
+</tr>
+<tr>
+<td>数字类</td>
+<td>G</td>
+<td>添加数组分割</td>
+<td>to_char(123456,’99G99G99’) &#x3D;12  34  56</td>
+</tr>
+<tr>
+<td>数字类</td>
+<td>L</td>
+<td>添加本地货币符</td>
+<td>to_char(12345,’L999999’) &#x3D;¥12345</td>
+</tr>
+</tbody></table>
+<h3 id="数值函数"><a href="#数值函数" class="headerlink" title="数值函数"></a>数值函数</h3><table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>函数说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>ABS()</strong></td>
+<td>取绝对值</td>
+<td>ABS(-10)&#x3D;10</td>
+</tr>
+<tr>
+<td><strong>SIGN()</strong></td>
+<td>取符号</td>
+<td>sign(4)&#x3D;1 sign(-99)&#x3D;-1 sign(0)&#x3D;0</td>
+</tr>
+<tr>
+<td><strong>CEIL()</strong></td>
+<td>取最大整数</td>
+<td>CEIL(5.1)&#x3D;6</td>
+</tr>
+<tr>
+<td><strong>FLOOR()</strong></td>
+<td>取最小整数</td>
+<td>FLOOR(5.8)&#x3D;5</td>
+</tr>
+<tr>
+<td><strong>MOD()</strong></td>
+<td>取余数</td>
+<td>MOD(8,3)&#x3D;2</td>
+</tr>
+<tr>
+<td><strong>POWER()</strong></td>
+<td>幂运算</td>
+<td>power(3,2)&#x3D;9</td>
+</tr>
+<tr>
+<td><strong>ROUND()</strong></td>
+<td>取最大有效数</td>
+<td>ROUND(5.555,2)&#x3D;5.56 ROUND(5.555,-1)&#x3D;10</td>
+</tr>
+<tr>
+<td><strong>TRUNC()</strong></td>
+<td>取最小有效数</td>
+<td>TRUNC(5.555,2)&#x3D;5.55 TRUNC(5.555,-1)&#x3D;0</td>
+</tr>
+</tbody></table>
+<h3 id="日期函数"><a href="#日期函数" class="headerlink" title="日期函数"></a>日期函数</h3><table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>函数说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>add_months()</strong></td>
+<td>月份加减</td>
+<td>add_months(sysdate,3)</td>
+</tr>
+<tr>
+<td><strong>months_between()</strong></td>
+<td>两个日期间相差的月份</td>
+<td>months_between(日期1,日期2)</td>
+</tr>
+<tr>
+<td><strong>last_day()</strong></td>
+<td>本月最后一天</td>
+<td>last_day(sysdate)</td>
+</tr>
+<tr>
+<td><strong>next_day()</strong></td>
+<td>接下来的一个星期几</td>
+<td>next_day(sysdate,3) <em>–显示下一个星期二</em></td>
+</tr>
+<tr>
+<td><strong>round()</strong></td>
+<td>四舍五入获取日期</td>
+<td>round(sysdate,yyyy)</td>
+</tr>
+<tr>
+<td><strong>trunc()</strong></td>
+<td>截取获取日期</td>
+<td>trunc(sysdate,mm)</td>
+</tr>
+<tr>
+<td><strong>interval</strong></td>
+<td>时间跨度表达</td>
+<td>interval ‘1 2:30’ day to minute <em>–一天零两小时三十分</em></td>
+</tr>
+</tbody></table>
+<p>select to_char(to_date(20220217,’yyyymmdd’), ‘yyyy” 年” mm” 月 “dd “日”‘)   from dual;</p>
+<h3 id="字符串函数"><a href="#字符串函数" class="headerlink" title="字符串函数"></a>字符串函数</h3><table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>函数说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>**ascii（）**字符转ASCII</td>
+<td></td>
+<td>select ascii(‘A’) from emp;</td>
+</tr>
+<tr>
+<td><strong>chr()</strong> ASCII转字符</td>
+<td></td>
+<td>select chr(65) from  emp;</td>
+</tr>
+<tr>
+<td><strong>concat()</strong> 合并字符串</td>
+<td>concat（字符串1,字符串2） 行拼接 wm_concat()</td>
+<td>select concat(empno,ename) from emp;</td>
+</tr>
+<tr>
+<td><strong>upper()</strong> 大写</td>
+<td></td>
+<td>select upper(ename) from emp;</td>
+</tr>
+<tr>
+<td><strong>lower()</strong> 小写</td>
+<td></td>
+<td>select lower(ename) from emp;</td>
+</tr>
+<tr>
+<td><strong>initcap()</strong> 首字母大写</td>
+<td></td>
+<td>select initcap(ename) from emp;</td>
+</tr>
+<tr>
+<td><strong>replace()</strong> 替换</td>
+<td>replace(列名,’需替换字符’,’替换字符’)</td>
+<td>select replace(ename,’ABC,’ai’) from emp;</td>
+</tr>
+<tr>
+<td><strong>translate()</strong> 字符替换</td>
+<td>translate(列名,’需替换字符列表’,’替换字符列表’)</td>
+<td>select translate(ename,’ABCD’,’abc’) from emp;</td>
+</tr>
+<tr>
+<td><strong>substr()</strong> 截取</td>
+<td>substr(列名,截取开始位,截取长度)</td>
+<td>select substr(ename,1,3) ,substr(ename,-3) from emp;</td>
+</tr>
+<tr>
+<td><strong>lpad()</strong> 左填充</td>
+<td>lpad(列名,填充后长度,使用什么填充)</td>
+<td>select lpad(ename,10,’ ‘) from emp;</td>
+</tr>
+<tr>
+<td><strong>rpad()</strong> 右填充</td>
+<td>rpad(列名,填充后长度,使用什么填充)</td>
+<td>select rpad(ename,10,’ ‘) from emp;</td>
+</tr>
+<tr>
+<td><strong>trim()</strong> 剔除</td>
+<td>trim(both|leading|trailing ‘剔除字符’ from 列名)</td>
+<td>select trim(both ‘ ‘ from ename) from emp;</td>
+</tr>
+<tr>
+<td><strong>ltrim()</strong> 左剔除</td>
+<td>ltrim(列名,’剔除字符‘)</td>
+<td>select ltrim(ename,’ ‘) from emp;</td>
+</tr>
+<tr>
+<td><strong>rtrim()</strong> 右剔除</td>
+<td>rtrim(列名,’剔除字符‘)</td>
+<td>select rtrim(ename,’ ‘) from emp;</td>
+</tr>
+<tr>
+<td><strong>length()</strong> 字符长度</td>
+<td>lengthb()</td>
+<td>select length(ename) from emp;</td>
+</tr>
+<tr>
+<td><strong>instr()</strong> 字符位置</td>
+<td>instr(列名,’需要查找的字符’,从第几位开始,目标字符出现次数)</td>
+<td>select instr(ename,’A’,1,1) from emp</td>
+</tr>
+</tbody></table>
+<h3 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h3><table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>函数说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>sum()</strong></td>
+<td>求和</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>avg()</strong></td>
+<td>求平均数</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>count()</strong></td>
+<td>计数</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>max()</strong></td>
+<td>最大值</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>min()</strong></td>
+<td>最小值</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>median()</strong></td>
+<td>中间值</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="递归查询"><a href="#递归查询" class="headerlink" title="递归查询"></a>递归查询</h3><blockquote>
+<p>[start with]</p>
+<p>connect by [nocycle] prior 条件</p>
+<p>[and]</p>
+<p>start with ：设置起点，省略后默认以全部行为起点。</p>
+<p>connect by [condition] ：与一般的条件一样作用于当前列，但是在满足条件后，会以全部列作为下一层级递归（没有其他条件的话）。</p>
+<p>prior ： 表示上一层级的标识符。经常用来对下一层级的数据进行限制。不可以接伪列。<br>level ：伪列，表示当前深度。</p>
+<p>connect_by_root() ：显示根节点列。经常用来分组。</p>
+<p>connect_by_isleaf ：1是叶子节点，0不是叶子节点。在制作树状表格时必用关键字。</p>
+<p>sys_connect_by_path() ：将递归过程中的列进行拼接。<br>nocycle , connect_by_iscycle : 在有循环结构的查询中使用。<br>siblings : 保留树状结构，对兄弟节点进行排序</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- start with 相当于一个where</span></span><br><span class="line"><span class="comment">-- where条件的作用域不是在递归查询中的，而是在递归查询完后的。 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> e.<span class="operator">*</span>,level <span class="keyword">from</span>  emp e <span class="keyword">start</span> <span class="keyword">with</span> ename<span class="operator">=</span><span class="string">&#x27;KING&#x27;</span></span><br><span class="line"><span class="keyword">connect</span> <span class="keyword">by</span> prior empno<span class="operator">=</span>mgr</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> e.<span class="operator">*</span>,level <span class="keyword">from</span>  emp e </span><br><span class="line"><span class="keyword">connect</span> <span class="keyword">by</span> prior empno<span class="operator">=</span>mgr</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">-- sys_connect_by_path</span></span><br><span class="line"><span class="comment">-- 这个函数是用来返回组成层级的直到当前行的值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> e.<span class="operator">*</span>,level,sys_connect_by_path (e.ename,<span class="string">&#x27;/&#x27;</span>) </span><br><span class="line"><span class="keyword">from</span>  emp e <span class="keyword">start</span> <span class="keyword">with</span> ename<span class="operator">=</span><span class="string">&#x27;KING&#x27;</span></span><br><span class="line"><span class="keyword">connect</span> <span class="keyword">by</span> prior empno<span class="operator">=</span>mgr</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">WITH</span> EMP1 <span class="keyword">AS</span> (</span><br><span class="line"><span class="keyword">select</span> e.<span class="operator">*</span>,</span><br><span class="line">        LEVEL LE,</span><br><span class="line"> <span class="built_in">row_number</span>()<span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> LEVEL <span class="keyword">order</span> <span class="keyword">by</span> E.empno) R </span><br><span class="line"> <span class="keyword">from</span> emp E</span><br><span class="line"><span class="keyword">start</span> <span class="keyword">with</span> ename<span class="operator">=</span><span class="string">&#x27;KING&#x27;</span> </span><br><span class="line"><span class="keyword">CONNECT</span> <span class="keyword">BY</span> PRIOR EMPNO<span class="operator">=</span>MGR)</span><br><span class="line"><span class="keyword">select</span> e.<span class="operator">*</span>,</span><br><span class="line">level,</span><br><span class="line">sys_connect_by_p                                </span><br><span class="line"><span class="comment">-- CONNECT_BY_ISCYCLE NOCYCLE</span></span><br><span class="line"><span class="comment">-- 循环行: 该行只有一个子行，而且子行又是该行的祖先行</span></span><br><span class="line"><span class="comment">-- connect_by_iscycle: 前置条件:在使用了nocycle之后才能使用此关键字，</span></span><br><span class="line"><span class="comment">-- 用于表示是否是循环行，0表示否，1 表示是</span></span><br><span class="line"><span class="keyword">select</span> e.<span class="operator">*</span>,level,CONNECT_BY_ISCYCLE<span class="comment">--,SYS_CINNECT_BY_PATH(e.ename,&#x27;/&#x27;) </span></span><br><span class="line"><span class="keyword">from</span>  emp e <span class="keyword">start</span> <span class="keyword">with</span> ename<span class="operator">=</span><span class="string">&#x27;SMITH&#x27;</span></span><br><span class="line"><span class="keyword">connect</span> <span class="keyword">by</span> NOCYCLE prior empno<span class="operator">=</span>mgr </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">-- connect_by_root 列下</span></span><br><span class="line"><span class="comment">-- 查询各子节点的根节点</span></span><br><span class="line"><span class="keyword">select</span> e.<span class="operator">*</span>,level,connect_by_root EMPNO,CONNECT_BY_ISLEAF</span><br><span class="line"><span class="comment">--,SYS_CINNECT_BY_PATH(e.ename,&#x27;/&#x27;) </span></span><br><span class="line"><span class="keyword">from</span>  emp e <span class="keyword">start</span> <span class="keyword">with</span> ename<span class="operator">=</span><span class="string">&#x27;KING&#x27;</span></span><br><span class="line"><span class="keyword">connect</span> <span class="keyword">by</span> prior empno<span class="operator">=</span>mgr</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--求各个层级以及其下属的工资总和</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> mgr,<span class="built_in">sum</span>(sal) <span class="keyword">from</span> (</span><br><span class="line"><span class="keyword">select</span> empno,ename,sal,level,connect_by_root empno mgr</span><br><span class="line"><span class="keyword">from</span> emp</span><br><span class="line"><span class="keyword">connect</span> <span class="keyword">by</span> prior empno<span class="operator">=</span>mgr)</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> mgr</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">WITH</span>  E <span class="keyword">AS</span>(</span><br><span class="line"><span class="keyword">select</span> e.<span class="operator">*</span>,</span><br><span class="line"><span class="built_in">row_number</span>() <span class="keyword">OVER</span> (<span class="keyword">partition</span> <span class="keyword">BY</span> mgr <span class="keyword">ORDER</span> <span class="keyword">BY</span> e.deptno) m</span><br><span class="line"><span class="keyword">from</span>  emp e ) </span><br><span class="line"><span class="keyword">SELECT</span> E.<span class="operator">*</span>,SYS_CONNECT_BY_PATH(E.M,<span class="string">&#x27;.&#x27;</span>) </span><br><span class="line"><span class="keyword">FROM</span> E <span class="keyword">START</span> <span class="keyword">WITH</span> E.ename<span class="operator">=</span><span class="string">&#x27;KING&#x27;</span></span><br><span class="line"><span class="keyword">CONNECT</span> <span class="keyword">BY</span>  PRIOR E.EMPNO<span class="operator">=</span>E.MGR</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> E.DEPTNO</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">-- with as 递归</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">WITH</span> emp_path(empno,ename,path) </span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">SELECT</span> </span><br><span class="line">  e.empno,</span><br><span class="line">  e.ename,</span><br><span class="line">  e.ename <span class="keyword">AS</span> path </span><br><span class="line">  <span class="keyword">FROM</span> emp e</span><br><span class="line">  <span class="keyword">WHERE</span> e.mgr <span class="keyword">IS</span> <span class="keyword">NULL</span> </span><br><span class="line">  </span><br><span class="line">  <span class="keyword">UNION</span> <span class="keyword">ALL</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">SELECT</span> </span><br><span class="line">  e.empno,</span><br><span class="line">  e.ename,</span><br><span class="line">  ep.path <span class="operator">||</span> <span class="string">&#x27; -&gt; &#x27;</span> <span class="operator">||</span> e.ename </span><br><span class="line">  <span class="keyword">FROM</span>  emp_path ep</span><br><span class="line">  <span class="keyword">JOIN</span> emp e <span class="keyword">ON</span> e.mgr <span class="operator">=</span> ep.empno</span><br><span class="line">)</span><br><span class="line"><span class="keyword">SELECT</span> ename <span class="keyword">AS</span> &quot;员工姓名&quot;,path <span class="keyword">AS</span> &quot;管理路径&quot;</span><br><span class="line"><span class="keyword">FROM</span>  emp_path <span class="keyword">order</span> <span class="keyword">by</span> empno; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> TO_DATE(<span class="string">&#x27;2018-01-01&#x27;</span>, <span class="string">&#x27;YYYY - MM - DD&#x27;</span>) <span class="operator">+</span> LEVEL <span class="operator">*</span> <span class="type">INTERVAL</span> <span class="string">&#x27;1&#x27;</span><span class="keyword">day</span></span><br><span class="line"><span class="keyword">FROM</span> dual</span><br><span class="line"><span class="keyword">CONNECT</span> <span class="keyword">BY</span> LEVEL <span class="operator">&lt;=</span> months_between(TO_DATE(<span class="string">&#x27;2017-01-01&#x27;</span>, <span class="string">&#x27;YYYY - MM - DD&#x27;</span>),TO_DATE(<span class="string">&#x27;2018-01-31&#x27;</span>, <span class="string">&#x27;YYYY - MM - DD&#x27;</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="开窗函数"><a href="#开窗函数" class="headerlink" title="开窗函数"></a>开窗函数</h3><p>开窗函数是在聚合函数的基础上实现统计。开窗函数的格式为：</p>
+<p>**聚合函数() over() **</p>
+<p>OVER 关键字表示把函数当成开窗函数而不是聚合函数。SQL 标准允许将所有聚合函数用做开窗函数，使用 OVER 关键字来区分这两种用法。<strong>开窗函数无法直接放置到where子句中进行判断，需要使用别名加子查询完成对开窗函数结果的筛选。</strong></p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--统计工资大于1500人员的数量</span></span><br><span class="line"><span class="keyword">select</span> empno,ename,<span class="built_in">count</span>(empno) <span class="keyword">over</span>() <span class="keyword">from</span> emp <span class="keyword">where</span> sal<span class="operator">&gt;</span><span class="number">1500</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="partition-by"><a href="#partition-by" class="headerlink" title="partition by"></a>partition by</h5><p>开窗函数的 OVER 关键字后括号中的可以使用 PARTITION BY 子句来定义行的分区来供进行聚合计算。与 GROUP BY 子句不同，PARTITION BY 子句创建的分区是独除分组外还可以使用order by 关键字对数据进行排序。</p>
+<p>示例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--统计工资大于1500的人员数量 并按照部门分组</span></span><br><span class="line"><span class="keyword">select</span> empno,ename,deptno,<span class="built_in">count</span>(empno) <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> deptno) <span class="keyword">from</span> emp <span class="keyword">where</span> sal<span class="operator">&gt;</span><span class="number">1500</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="order-by"><a href="#order-by" class="headerlink" title="order by"></a>order by</h5><p>开窗函数中可以在OVER关键字后的选项中使用ORDER BY子句来指定排序规则，而且有的开窗函数还要求必须指定排序规则。使用ORDER BY子句可以对结果集按照指定的排序规则进行排序，并且在一个指定的范围内进行聚合运算。ORDER BY子句的语法为：</p>
+<blockquote>
+<p>ORDER BY 字段名 RANGE|ROWS BETWEEN 边界规则1 AND 边界规则2</p>
+</blockquote>
+<p>RANGE表示按照值的范围进行范围的定义，而ROWS表示按照行的范围进行范围的定义。</p>
+<p>边界规则为：</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>current row</td>
+<td>当前行</td>
+</tr>
+<tr>
+<td>N preceding</td>
+<td>前N行    2preceding</td>
+</tr>
+<tr>
+<td>unbounded preceding</td>
+<td>直到第一行</td>
+</tr>
+<tr>
+<td>n following</td>
+<td>后N行    2 following</td>
+</tr>
+<tr>
+<td>unbounded following</td>
+<td>一直到最后一条记录</td>
+</tr>
+</tbody></table>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--求所有员工的工资，对工资进行排序，结果显示第一行到当前行的求和结果</span></span><br><span class="line"><span class="keyword">select</span> ename,sal,<span class="built_in">sum</span>(sal) <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">rows</span> <span class="keyword">between</span> unbounded preceding <span class="keyword">and</span> <span class="keyword">current</span> <span class="type">row</span>)</span><br><span class="line"><span class="keyword">from</span> emp;</span><br><span class="line"><span class="comment">--简化写法</span></span><br><span class="line"><span class="keyword">select</span> ename,sal,<span class="built_in">sum</span>(sal) <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> sal ) <span class="keyword">from</span> emp;</span><br></pre></td></tr></table></figure>
+
+<p>由于系统默认使用rows between unbounded preceding  and current row 作为关键字 所以能够使用简化写法。</p>
+<h4 id="排序开窗函数"><a href="#排序开窗函数" class="headerlink" title="排序开窗函数"></a>排序开窗函数</h4><table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>函数说明</th>
+<th>函数示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>row_number() over()</td>
+<td>无并列排序</td>
+<td>row_number() over(partition by deptno order by sal)</td>
+</tr>
+<tr>
+<td>rank() over()</td>
+<td>有并列排序，跳序号</td>
+<td></td>
+</tr>
+<tr>
+<td>dense_rank() over()</td>
+<td>有并列排序，序号连续</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>聚合开窗函数</p>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>值说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sum()</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>avg()</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>count()</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>max()</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>min()</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>first_value()</td>
+<td>求第一个值</td>
+<td></td>
+</tr>
+<tr>
+<td>last_value()</td>
+<td>求最后一个值</td>
+<td></td>
+</tr>
+<tr>
+<td>LAG() OVER(PARTITION BY … ORDER BY …)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>LEAD() OVER(PARTITION BY … ORDER BY …)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><code>LAG(col,n,DEFAULT)</code>用于统计窗口内往上第n行值<br> 第一个参数为列名，第二个参数为往上第n行（可选，默认为1），第三个参数为默认值（当往上第n行为NULL时候，取默认值，如不指定，则为NULL）</p>
+<p><code>LEAD(col,n,DEFAULT)</code> 用于统计窗口内往下第n行值<br> 第一个参数为列名，第二个参数为往下第n行（可选，默认为1），第三个参数为默认值（当往下第n行为NULL时候，取默认值，如不指定，则为NULL）</p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--查看所有人员工资排名，对比三个排序函数的差异</span></span><br><span class="line"><span class="keyword">select</span> ename,sal,<span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> sal) row1,</span><br><span class="line"><span class="built_in">rank</span>() <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> sal) rank2,</span><br><span class="line"><span class="built_in">dense_rank</span>() <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> sal) dense_rank3</span><br><span class="line"><span class="keyword">from</span> emp</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="条件判断函数"><a href="#条件判断函数" class="headerlink" title="条件判断函数"></a>条件判断函数</h3><h4 id="case-when-语句"><a href="#case-when-语句" class="headerlink" title="case when 语句"></a>case when 语句</h4><p>语句格式：</p>
+<blockquote>
+<p>case when 判断条件 then 执行语句</p>
+<p>​	   when 判断条件 then 执行语句</p>
+<p>​	……</p>
+<p>when 判断条件 then 执行语句</p>
+<p>else 执行语句</p>
+<p>end</p>
+</blockquote>
+<ul>
+<li><p>代码从头开始逐行执行，当满足其中一个判断条件时，执行后面的执行语句，完成后退出判断（后面的判断语句不在执行）。</p>
+</li>
+<li><p>如果上述的判断条件都不满足则在执行else的执行语句后结束判断函数。</p>
+</li>
+<li><p>在case when语句中 else语句是可选的，遇到when中判断语句都不满足条件且没有else 的情况下系统会留空。</p>
+</li>
+<li><p>执行语句的输出结果必须是一个数据类型。</p>
+</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--对全体人员的工资进行评级</span></span><br><span class="line"><span class="keyword">select</span> ename,sal,</span><br><span class="line"><span class="keyword">case</span> <span class="keyword">when</span> sal <span class="operator">&gt;</span> <span class="number">4000</span> <span class="keyword">and</span> sal <span class="operator">&lt;=</span> <span class="number">5000</span> <span class="keyword">then</span> <span class="string">&#x27;A级&#x27;</span></span><br><span class="line">  <span class="keyword">when</span> sal <span class="operator">&gt;</span> <span class="number">3000</span> <span class="keyword">and</span> sal <span class="operator">&lt;=</span> <span class="number">4000</span> <span class="keyword">then</span> <span class="string">&#x27;B级&#x27;</span></span><br><span class="line">  <span class="keyword">when</span> sal <span class="operator">&gt;</span> <span class="number">2000</span> <span class="keyword">and</span> sal <span class="operator">&lt;=</span> <span class="number">3000</span> <span class="keyword">then</span> <span class="string">&#x27;C级&#x27;</span></span><br><span class="line">  <span class="keyword">when</span> sal <span class="operator">&gt;</span> <span class="number">1000</span> <span class="keyword">and</span> sal <span class="operator">&lt;=</span> <span class="number">2000</span> <span class="keyword">then</span> <span class="string">&#x27;D级&#x27;</span></span><br><span class="line">  <span class="keyword">when</span> sal <span class="operator">&lt;=</span> <span class="number">1000</span> <span class="keyword">then</span> <span class="string">&#x27;F级&#x27;</span></span><br><span class="line">  <span class="keyword">else</span><span class="string">&#x27;不知道&#x27;</span> </span><br><span class="line"> <span class="keyword">end</span> sal_grade</span><br><span class="line"><span class="keyword">from</span> emp</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>对判断条件进行处理时尽量保障条件覆盖范围不要有所重叠，出现重叠情况系统会显示先执行的判断语句。这可能会导致系统混乱出现BUG。</p>
+<h4 id="decode语句"><a href="#decode语句" class="headerlink" title="decode语句"></a>decode语句</h4><p>格式：</p>
+<blockquote>
+<p>decode(判断对象|列名,值1,输出结果1,值2,输出结果2……值3,输出结果3,else结果)</p>
+<p>decode(判断对象|列,值1,输出结果1,值2,输出结果2…值3,输出结果3,</p>
+<p>else 判断对象|列值1,输出结果1,值2,输出结果2…值3,输出结果3)</p>
+</blockquote>
+<p>deocde对列或条件做判断，当出现值1的时候，则取结果1，出现值2的时候，取结果2，最后的结果n代表除前面情况以外的其它情况。</p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--判断所有人员是否有奖金</span></span><br><span class="line"><span class="keyword">select</span> ename,decode(comm,<span class="string">&#x27;&#x27;</span>,<span class="string">&#x27;无奖金&#x27;</span>,<span class="string">&#x27;有奖金&#x27;</span>) howcomm <span class="keyword">from</span> emp; </span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--对除&#x27;KING&#x27;以外的所有人员进行加薪，10号部门加10%，20号部门加20%，30号部门加30%</span></span><br><span class="line"><span class="keyword">select</span> ename,sal,</span><br><span class="line">decode(ename,<span class="string">&#x27;KING&#x27;</span>,SAL,DEPTNO,<span class="number">10</span>,SAL<span class="operator">*</span><span class="number">1.1</span>,<span class="number">20</span>,SAL<span class="operator">*</span><span class="number">1.2</span>,<span class="number">30</span>,SAL<span class="operator">*</span><span class="number">1.3</span>) </span><br><span class="line"><span class="keyword">from</span>  emp;</span><br></pre></td></tr></table></figure>
+
+<h4 id="行转列和列转行"><a href="#行转列和列转行" class="headerlink" title="行转列和列转行"></a>行转列和列转行</h4><h5 id="pivot格式"><a href="#pivot格式" class="headerlink" title="pivot格式"></a>pivot格式</h5><blockquote>
+<p> SELECT * FROM （数据查询集）</p>
+<p>PIVOT </p>
+<p>(</p>
+<p> SUM(Score&#x2F;<em>行转列后 列的值</em>&#x2F;)  FOR</p>
+<p> coursename&#x2F;<em>需要行转列的列</em>&#x2F; IN (转换后列的值)</p>
+<p>)</p>
+</blockquote>
+<p> 示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> sc </span><br><span class="line">pivot(<span class="built_in">max</span>(score) <span class="keyword">for</span> cno <span class="keyword">in</span></span><br><span class="line">(<span class="string">&#x27;c001&#x27;</span>,<span class="string">&#x27;c002&#x27;</span>,<span class="string">&#x27;c003&#x27;</span>,<span class="string">&#x27;c004&#x27;</span>,<span class="string">&#x27;c005&#x27;</span>,<span class="string">&#x27;c006&#x27;</span>,<span class="string">&#x27;c007&#x27;</span>,<span class="string">&#x27;c008&#x27;</span>,<span class="string">&#x27;c009&#x27;</span>,<span class="string">&#x27;c010&#x27;</span>))</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="unpivot-列转行"><a href="#unpivot-列转行" class="headerlink" title="unpivot 列转行"></a>unpivot 列转行</h5> <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> (<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> sc pivot(<span class="built_in">max</span>(score) <span class="keyword">for</span> cno <span class="keyword">in</span></span><br><span class="line"></span><br><span class="line">(<span class="string">&#x27;c001&#x27;</span><span class="keyword">as</span> c001,<span class="string">&#x27;c002&#x27;</span> <span class="keyword">as</span> c002,<span class="string">&#x27;c003&#x27;</span> <span class="keyword">as</span> c003 ,<span class="string">&#x27;c004&#x27;</span><span class="keyword">as</span> c004,<span class="string">&#x27;c005&#x27;</span><span class="keyword">as</span> c005,<span class="string">&#x27;c006&#x27;</span><span class="keyword">as</span> c006,<span class="string">&#x27;c007&#x27;</span><span class="keyword">as</span> c007,<span class="string">&#x27;c008&#x27;</span><span class="keyword">as</span> c008,<span class="string">&#x27;c009&#x27;</span><span class="keyword">as</span> c009,<span class="string">&#x27;c010&#x27;</span><span class="keyword">as</span> c010)))</span><br><span class="line"></span><br><span class="line">unpivot (score <span class="keyword">for</span> cno <span class="keyword">in</span> (c001,c002,c003,c004,c005,c006,c007,c008,c009,c010))</span><br><span class="line"></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WITH</span> tmp <span class="keyword">AS</span>(</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> SC </span><br><span class="line">pivot (<span class="built_in">max</span>(score) </span><br><span class="line"><span class="keyword">FOR</span> cno <span class="keyword">IN</span>(<span class="string">&#x27;c001&#x27;</span> java,<span class="string">&#x27;c002&#x27;</span> php,<span class="string">&#x27;c003&#x27;</span> c003,<span class="string">&#x27;c004&#x27;</span> c004,</span><br><span class="line"><span class="string">&#x27;c005&#x27;</span>c005,<span class="string">&#x27;c006&#x27;</span> c006,<span class="string">&#x27;c007&#x27;</span> c007,<span class="string">&#x27;c008&#x27;</span>c008, <span class="string">&#x27;c009&#x27;</span> c009,<span class="string">&#x27;c010&#x27;</span> c010 )) </span><br><span class="line">)</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> tmp</span><br><span class="line">unpivot INCLUDE NULLS  (</span><br><span class="line">score <span class="keyword">FOR</span> cno <span class="keyword">IN</span> (java,php,c003,c004,</span><br><span class="line">c005,c006,c007,c008, c009,c010))</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">declare</span><br><span class="line">x number :=&amp;1;</span><br><span class="line">y number :=&amp;2;</span><br><span class="line">z number :=&amp;3;</span><br><span class="line">t number ;</span><br><span class="line">begin</span><br><span class="line">  for a in (select val from(select x  x ,y  y ,z  z  from dual) </span><br><span class="line">    unpivot ( val for type in (x,y,z))</span><br><span class="line">  order by val)</span><br><span class="line">    loop</span><br><span class="line">      dbms_output.put_line(a.val);</span><br><span class="line">  end loop;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="listagg列合并行"><a href="#listagg列合并行" class="headerlink" title="listagg列合并行"></a>listagg列合并行</h5><blockquote>
+<p> listagg(合并列名,’分隔符号’) with group(order by  排序列) over（partition by 分组列）</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> deptno, <span class="built_in">listagg</span>(ename<span class="operator">||</span><span class="string">&#x27;,&#x27;</span><span class="operator">||</span>sal<span class="operator">||</span><span class="string">&#x27;,&#x27;</span><span class="operator">||</span>deptno,<span class="string">&#x27;;&#x27;</span>)<span class="keyword">WITHIN</span> <span class="keyword">GROUP</span>(<span class="keyword">ORDER</span> <span class="keyword">BY</span> empno) LIS</span><br><span class="line"><span class="keyword">FROM</span>  emp</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> deptno</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> temp <span class="keyword">as</span>(</span><br><span class="line"><span class="keyword">select</span> <span class="number">500</span> population, <span class="string">&#x27;中国&#x27;</span> nation ,<span class="string">&#x27;江苏&#x27;</span> city <span class="keyword">from</span> dual <span class="keyword">union</span> <span class="keyword">all</span></span><br><span class="line"><span class="keyword">select</span> <span class="number">1500</span> population, <span class="string">&#x27;中国&#x27;</span> nation ,<span class="string">&#x27;上海&#x27;</span> city <span class="keyword">from</span> dual <span class="keyword">union</span> <span class="keyword">all</span></span><br><span class="line"><span class="keyword">select</span> <span class="number">500</span> population, <span class="string">&#x27;中国&#x27;</span> nation ,<span class="string">&#x27;北京&#x27;</span> city <span class="keyword">from</span> dual <span class="keyword">union</span> <span class="keyword">all</span></span><br><span class="line"><span class="keyword">select</span> <span class="number">1000</span> population, <span class="string">&#x27;美国&#x27;</span> nation ,<span class="string">&#x27;纽约&#x27;</span> city <span class="keyword">from</span> dual <span class="keyword">union</span> <span class="keyword">all</span></span><br><span class="line"><span class="keyword">select</span> <span class="number">500</span> population, <span class="string">&#x27;美国&#x27;</span> nation ,<span class="string">&#x27;波士顿&#x27;</span> city <span class="keyword">from</span> dual <span class="keyword">union</span> <span class="keyword">all</span></span><br><span class="line"><span class="keyword">select</span> <span class="number">500</span> population, <span class="string">&#x27;日本&#x27;</span> nation ,<span class="string">&#x27;东京&#x27;</span> city <span class="keyword">from</span> dual</span><br><span class="line">)</span><br><span class="line"><span class="keyword">select</span> population,</span><br><span class="line">nation,</span><br><span class="line">city,</span><br><span class="line"><span class="built_in">listagg</span>(city,<span class="string">&#x27;,&#x27;</span>) <span class="keyword">within</span> <span class="keyword">GROUP</span> (<span class="keyword">order</span> <span class="keyword">by</span> city) <span class="keyword">over</span> (<span class="keyword">partition</span> <span class="keyword">by</span> nation) rank</span><br><span class="line"><span class="keyword">from</span> temp</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="查询语句执行顺序"><a href="#查询语句执行顺序" class="headerlink" title="查询语句执行顺序"></a>查询语句执行顺序</h3><p>​      <strong>书写顺序：				  执行顺序：</strong></p>
+<ol>
+<li><p><strong>SELECT … 				  FROM …</strong></p>
+</li>
+<li><p><strong>FROM … 		      	  WHERE …</strong></p>
+</li>
+<li><p><strong>WHERE …                   GROUP BY …</strong> </p>
+</li>
+<li><p><strong>GROUP BY …             HAVING …</strong> </p>
+</li>
+<li><p><strong>HAVING …                 SELECT …</strong> </p>
+</li>
+<li><p><strong>ORDER BY …             ORDER BY …</strong></p>
+</li>
+</ol>
+<h2 id="多表查询"><a href="#多表查询" class="headerlink" title="多表查询"></a>多表查询</h2><h3 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h3><h4 id="单行子查询"><a href="#单行子查询" class="headerlink" title="单行子查询"></a>单行子查询</h4><p>在where中进行子查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> <span class="operator">*</span> <span class="keyword">from</span> emp</span><br><span class="line"><span class="keyword">Where</span> ename<span class="operator">=</span>（<span class="keyword">select</span> ename <span class="keyword">from</span> emp <span class="keyword">where</span> mgr <span class="keyword">is</span> <span class="keyword">null</span>）</span><br></pre></td></tr></table></figure>
+
+<p>使用其他操作符进行单行查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> empno ，ename ，sal <span class="keyword">from</span> emp </span><br><span class="line"><span class="keyword">Where</span> sal <span class="operator">&gt;</span> (<span class="keyword">select</span> <span class="built_in">avg</span>(sal) <span class="keyword">from</span> emp)</span><br></pre></td></tr></table></figure>
+
+<p>在having进行子查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span>  ename ，<span class="built_in">avg</span>(sal) <span class="keyword">from</span> emp</span><br><span class="line"><span class="keyword">Group</span> <span class="keyword">by</span> ename </span><br><span class="line"><span class="keyword">Having</span> <span class="built_in">avg</span>(sal)<span class="operator">&lt;</span> (<span class="keyword">select</span> <span class="built_in">max</span>(<span class="built_in">avg</span>(sal)) <span class="keyword">from</span> emp <span class="keyword">group</span> <span class="keyword">by</span> ename)</span><br></pre></td></tr></table></figure>
+
+<p>在from中进行子查询</p>
+<p>这种子查询又称为 内联视图</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> ename <span class="keyword">from</span>（<span class="keyword">select</span> ename <span class="keyword">from</span> emp <span class="keyword">where</span> empno<span class="operator">&lt;</span><span class="number">7900</span>）</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="多行子查询"><a href="#多行子查询" class="headerlink" title="多行子查询"></a>多行子查询</h4><p>在多行子查询中使用in any all</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--查询emp表中名字中有字母E的人员</span></span><br><span class="line"><span class="keyword">Select</span> <span class="operator">*</span> <span class="keyword">from</span> emp</span><br><span class="line"><span class="keyword">Where</span> ename <span class="keyword">in</span> (<span class="keyword">select</span>  ename <span class="keyword">from</span> emp <span class="keyword">where</span> ename <span class="keyword">like</span> ‘<span class="operator">%</span>E<span class="operator">%</span>’</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--查询表中工资大于20号部门任意一人的人员</span></span><br><span class="line"><span class="keyword">Select</span> <span class="operator">*</span> <span class="keyword">from</span> emp</span><br><span class="line"><span class="keyword">Where</span> sal<span class="operator">&gt;</span> <span class="keyword">any</span> (<span class="keyword">select</span> sal <span class="keyword">from</span> emp <span class="keyword">where</span> deptno <span class="operator">=</span> <span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--查询emp表中工资大于20号部门所有人的人员</span></span><br><span class="line"><span class="keyword">Select</span> <span class="operator">*</span> <span class="keyword">from</span> emp</span><br><span class="line"><span class="keyword">Where</span> sal<span class="operator">&gt;</span> <span class="keyword">all</span> (<span class="keyword">select</span> sal <span class="keyword">from</span> emp <span class="keyword">where</span> deptno <span class="operator">=</span> <span class="number">20</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="any-和all-的替代"><a href="#any-和all-的替代" class="headerlink" title="any 和all 的替代"></a>any 和all 的替代</h5><table>
+<thead>
+<tr>
+<th>语句</th>
+<th>说明</th>
+<th>替代</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&gt;all</td>
+<td>大于所有</td>
+<td>&gt;(max())</td>
+<td>大于最大</td>
+</tr>
+<tr>
+<td>&lt;all</td>
+<td>小于所有</td>
+<td>&lt;(min())</td>
+<td>小于最小</td>
+</tr>
+<tr>
+<td>&gt;any</td>
+<td>大于任意一个</td>
+<td>&gt;(min())</td>
+<td>大于最小</td>
+</tr>
+<tr>
+<td>&lt;any</td>
+<td>小于任意一个</td>
+<td>&lt;(max())</td>
+<td>小于最大</td>
+</tr>
+</tbody></table>
+<h5 id="in和exists-的使用"><a href="#in和exists-的使用" class="headerlink" title="in和exists 的使用"></a>in和exists 的使用</h5><p>​	in 是把外表和内表作hash 连接，而exists是对外表作loop循环，每次loop循环再对内表进行查询。通常情况下采用exists要比in效率高，因为IN不走索引，但要看实际情况具体使用： <strong>IN适合于外表大而内表小的情况；EXISTS适合于外表小而内表大的情况。</strong></p>
+<p>​    其实我们区分in和exists主要是造成了驱动顺序的改变(这是性能变化的关键)，如果是exists，那么以外层表为驱动表，先被访问，如果是IN，那么先执行子查询，所以我们会以驱动表的快速返回为目标，那么就会考虑到索引及结果集的关系了 ，另外IN时不对NULL进行处理。</p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--查询emp表中各部门工资最少的人员信息</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp e </span><br><span class="line"><span class="keyword">where</span> <span class="keyword">Exists</span> </span><br><span class="line">  (<span class="keyword">select</span> deptno,<span class="built_in">min</span>(sal) <span class="keyword">from</span> emp p </span><br><span class="line">   <span class="keyword">where</span> e.deptno<span class="operator">=</span>p.deptno </span><br><span class="line">   <span class="keyword">group</span> <span class="keyword">by</span> deptno</span><br><span class="line">   <span class="keyword">having</span> <span class="built_in">min</span>(p.sal)<span class="operator">=</span>e.sal)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="联合查询"><a href="#联合查询" class="headerlink" title="联合查询"></a>联合查询</h3><p>联合查询用于数据源不止一个的情况下，通过将多个表进行拼接后生成一个临时的数据源就被称为表连接。 </p>
+<h4 id="集合操作符"><a href="#集合操作符" class="headerlink" title="集合操作符"></a>集合操作符</h4><table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>union all</td>
+<td>并集</td>
+<td>所有行，包含重复行  替代 or</td>
+</tr>
+<tr>
+<td>Union</td>
+<td>并集</td>
+<td>合并所有行，不包含重复</td>
+</tr>
+<tr>
+<td>Intersect</td>
+<td>交集</td>
+<td>返回共有行，即重复行</td>
+</tr>
+<tr>
+<td>Minus</td>
+<td>差集</td>
+<td>将表二中的行剔除后的剩余记录  实现查重复</td>
+</tr>
+</tbody></table>
+<p>集合操作符可以把两个或者多个查询返回的行组合起来，当使用集合操作符时，必须注意：所有的查询返回的列数以及列的数据类型必须匹配，列名称可以不同。</p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--求emp表ename中含’A‘或含有‘M’</span></span><br><span class="line"> <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> ename <span class="keyword">like</span> <span class="string">&#x27;%A%&#x27;</span> </span><br><span class="line"> <span class="keyword">union</span> </span><br><span class="line"> <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> ename <span class="keyword">like</span> <span class="string">&#x27;%M%&#x27;</span>; </span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--求emp表ename中即含’A‘又含有‘M’</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> ename <span class="keyword">like</span> <span class="string">&#x27;%A%&#x27;</span> </span><br><span class="line"> <span class="keyword">intersect</span> </span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> ename <span class="keyword">like</span> <span class="string">&#x27;%M%&#x27;</span>; </span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--求emp表sal从700到1200</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> sal <span class="keyword">between</span> <span class="number">700</span> <span class="keyword">and</span> <span class="number">1300</span> </span><br><span class="line">minus </span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> sal <span class="keyword">between</span> <span class="number">1200</span> <span class="keyword">and</span> <span class="number">1400</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="表连接"><a href="#表连接" class="headerlink" title="表连接"></a>表连接</h4><h5 id="笛卡尔积"><a href="#笛卡尔积" class="headerlink" title="笛卡尔积"></a>笛卡尔积</h5><p>如果在多表查询中不指定连接条件，就会导致一个表中的所有行都连接到另外一个表的所有行上，这种情况就称为笛卡尔积。例如emp表中14行数据和 dept部门表中的4行 不使用连接条件来检索，最终会返回4*14 行数据。</p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--笛卡尔积</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp,dept</span><br><span class="line"><span class="keyword">select</span><span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">cross</span> <span class="keyword">join</span> dept</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="连接条件和连接类型"><a href="#连接条件和连接类型" class="headerlink" title="连接条件和连接类型"></a>连接条件和连接类型</h5><p>**连接条件分为两类：等连接、不等连接。**等连接使用&#x3D;号进行连接，不等连接使用&lt; 、&gt; 、between进行连接。</p>
+<h6 id="等式连接"><a href="#等式连接" class="headerlink" title="等式连接"></a>等式连接</h6><p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp ，dept <span class="keyword">where</span> emp.deptno<span class="operator">=</span>dept.deptno</span><br></pre></td></tr></table></figure>
+
+<h6 id="不等式连接"><a href="#不等式连接" class="headerlink" title="不等式连接"></a>不等式连接</h6><p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp e,salgrade s <span class="keyword">where</span> e.sal <span class="keyword">between</span> s.losal <span class="keyword">and</span> s.hisal</span><br></pre></td></tr></table></figure>
+
+<p><strong>连接类型包括：内连接（inner join）、外连接（outer join）、自连接（self join）；</strong></p>
+<h6 id="交叉连接"><a href="#交叉连接" class="headerlink" title="交叉连接"></a>交叉连接</h6><p>连接符： <strong>cross join</strong></p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp p <span class="keyword">cross</span> <span class="keyword">join</span> dept d</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="自然连接"><a href="#自然连接" class="headerlink" title="自然连接"></a>自然连接</h6><p>连接符：<strong>natural join</strong> </p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp p <span class="keyword">natural</span> <span class="keyword">join</span> dept d</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="内连接"><a href="#内连接" class="headerlink" title="内连接"></a>内连接</h6><p>连接符：<strong>inner join</strong></p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp p  <span class="keyword">join</span> dept d <span class="keyword">on</span> p.deptno<span class="operator">=</span>d.deptno</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="左外连接"><a href="#左外连接" class="headerlink" title="左外连接"></a>左外连接</h6><p>连接符：<strong>left outer join</strong> </p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp p <span class="keyword">left</span> <span class="keyword">join</span> dept d <span class="keyword">on</span> p.deptno<span class="operator">=</span>d.deptno</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="右外连接"><a href="#右外连接" class="headerlink" title="右外连接"></a>右外连接</h6><p>连接符：<strong>right outer join</strong></p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp p <span class="keyword">right</span> <span class="keyword">join</span> dept d <span class="keyword">on</span> p.deptno<span class="operator">=</span>d.deptno</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="全外连接"><a href="#全外连接" class="headerlink" title="全外连接"></a>全外连接</h6><p>连接符：<strong>full outer join</strong></p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp p <span class="keyword">full</span> <span class="keyword">join</span> dept d <span class="keyword">on</span> p.deptno<span class="operator">=</span>d.deptno</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="SQL基础-DML-TCL"><a href="#SQL基础-DML-TCL" class="headerlink" title="SQL基础-DML&amp;TCL"></a>SQL基础-DML&amp;TCL</h1><p>修改表数据语句包括 ：insert update delete用于对数据进行 插入、更新、删除操作并使用rollback commit进行提交或回滚。</p>
+<h2 id="DML语句"><a href="#DML语句" class="headerlink" title="DML语句"></a>DML语句</h2><h3 id="insert语句"><a href="#insert语句" class="headerlink" title="insert语句"></a>insert语句</h3><p>Insert语句格式：</p>
+<blockquote>
+<p> Insert into 表名(列名1，列名2，列名3)values(value1，value2,value3);</p>
+</blockquote>
+<blockquote>
+<p> Insert into 表名 values (value1,value2,value3);</p>
+</blockquote>
+<blockquote>
+<p>Insert into 表名(列名1，列名2，列名3) select * from 表名 where</p>
+</blockquote>
+<p>插入语句三种方式：</p>
+<ol>
+<li>使用列名和值一一对应的方式进行插入。 </li>
+<li>使用值按照表列顺序进行插入。</li>
+<li>通过select语句生成一个结果集进行值插入。</li>
+</ol>
+<p>在值中如果需要空值，可以在value中输入null。同时 如果输入的字符串时，需要用’’ 进行包裹，如果字符串中出现了单引号 则输入两个单引号，双引号不受影响。</p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--格式一</span></span><br><span class="line"><span class="keyword">insert into</span> emp(empno,ename,job,mgr,hiredate,sal,comm,deptno) <span class="keyword">values</span> (<span class="number">8901</span>,<span class="string">&#x27;dyf&#x27;</span>,<span class="string">&#x27;MANAGER&#x27;</span>,<span class="number">7839</span>,TO_DATE(<span class="number">20210930</span>,<span class="string">&#x27;yyyymmdd&#x27;</span>),<span class="number">3000</span>,<span class="string">&#x27;&#x27;</span>,<span class="number">40</span>);</span><br><span class="line"><span class="comment">--格式二</span></span><br><span class="line"><span class="keyword">insert into</span> emp <span class="keyword">values</span> (<span class="number">8902</span>,<span class="string">&#x27;dyf&#x27;</span>,<span class="string">&#x27;MANAGER&#x27;</span>,<span class="number">7839</span>,TO_DATE(<span class="number">20210930</span>,<span class="string">&#x27;yyyymmdd&#x27;</span>),<span class="number">3000</span>,<span class="keyword">null</span>,<span class="number">40</span>);</span><br><span class="line"><span class="comment">--格式三</span></span><br><span class="line"><span class="keyword">insert into</span> emp (empno,ename,deptno) <span class="keyword">select</span> <span class="number">7840</span>,ename,deptno <span class="keyword">from</span> emp <span class="keyword">where</span> empno<span class="operator">=</span><span class="string">&#x27;7839&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="update语句"><a href="#update语句" class="headerlink" title="update语句"></a>update语句</h3><p>在update语句中需要指定以下信息：</p>
+<p>1、要修改的行所在表</p>
+<p>2、指定要修改哪些行的where子句</p>
+<p>3、要修改的列的一个列名，以及新值，可使用set 子句</p>
+<p>update语句格式：</p>
+<blockquote>
+<p>Update 表名 set 列名 &#x3D;’values’ ,列名&#x3D;’values’ where  筛选条件</p>
+</blockquote>
+<blockquote>
+<p> Update 表名 set 列名&#x3D;(select * from 表名) where 筛选条件</p>
+</blockquote>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--格式一</span></span><br><span class="line"><span class="keyword">update</span> emp <span class="keyword">set</span> comm <span class="operator">=</span><span class="number">500</span> <span class="keyword">where</span> empno<span class="operator">=</span><span class="number">8902</span>;</span><br><span class="line"><span class="comment">--格式二</span></span><br><span class="line"><span class="keyword">update</span> emp  <span class="keyword">set</span> sal<span class="operator">=</span>(<span class="keyword">select</span> <span class="built_in">avg</span>(sal) <span class="keyword">from</span> emp ) <span class="keyword">where</span> empno<span class="operator">=</span><span class="number">8901</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="delete语句"><a href="#delete语句" class="headerlink" title="delete语句"></a>delete语句</h3><p>Delete 语句格式：</p>
+<blockquote>
+<p>Delete from  emp where 筛选条件</p>
+</blockquote>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--删除emp表中工资高于4级工资的人员</span></span><br><span class="line"><span class="keyword">Delete</span> <span class="keyword">from</span> emp <span class="keyword">where</span>  sal<span class="operator">&gt;</span>(<span class="keyword">select</span> <span class="built_in">avg</span>(hissal) <span class="keyword">from</span> salgrade <span class="keyword">where</span> grade<span class="operator">=</span><span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 删除表重复记录</span></span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> emp e <span class="keyword">where</span> e.rowid <span class="operator">&gt;</span> (<span class="keyword">select</span> <span class="built_in">min</span>(x.rowid) <span class="keyword">from</span> emp x <span class="keyword">where</span> x.emp_no<span class="operator">=</span>e. emp_no);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="merge语句"><a href="#merge语句" class="headerlink" title="merge语句"></a>merge语句</h3><p>​	通过根据与源表联接的结果，该语句可以实现对目标表执行插入、更新或删除操作。</p>
+<p>merge语句格式：</p>
+<blockquote>
+<p>MERGE INTO 目标表 A </p>
+<p>USING 源表|sql语句结果集 B </p>
+<p>ON (两表关联条件 and 两表关联条件2)</p>
+<p>WHEN MATCHED THEN</p>
+<p>[UPDATE set 列&#x3D;值]</p>
+<p>[delete where 判断条件]</p>
+<p>WHEN NOT MATCHED THEN</p>
+<p>[INSERT values(值) ]</p>
+</blockquote>
+<p>delele 只能跟update 一起使用，同时where只能出现一次，如果update 使用了	where，delete后面的where就无效了。同时注意使用<strong>Merge关键字只能更新一个表，源表中不能有重复的记录</strong>。</p>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">merge</span> <span class="keyword">into</span> sc2 sc2</span><br><span class="line"><span class="keyword">using</span> sc sc</span><br><span class="line"><span class="keyword">on</span> (sc2.sno<span class="operator">=</span>sc.sno <span class="keyword">and</span> sc2.cno<span class="operator">=</span>sc.cno)</span><br><span class="line"><span class="keyword">when</span> matched <span class="keyword">then</span>  <span class="keyword">update</span>   <span class="keyword">set</span> sc2.score<span class="operator">=</span>sc.score</span><br><span class="line">  	 <span class="keyword">delete</span>  <span class="keyword">where</span> (sc2.sno<span class="operator">!=</span>sc.sno <span class="keyword">and</span> sc2.cno<span class="operator">!=</span>sc.cno)</span><br><span class="line"><span class="keyword">when</span> <span class="keyword">not</span> matched  <span class="keyword">then</span> <span class="keyword">insert</span> <span class="keyword">values</span>(sc.sno,sc.cno,sc.score);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--无限制插入</span></span><br><span class="line"> <span class="keyword">merge</span> <span class="keyword">into</span> sc2 sc2</span><br><span class="line"><span class="keyword">using</span> sc sc</span><br><span class="line"><span class="keyword">on</span> (<span class="number">1</span><span class="operator">=</span><span class="number">0</span>)</span><br><span class="line"><span class="keyword">when</span> <span class="keyword">not</span> matched <span class="keyword">then</span></span><br><span class="line"><span class="keyword">insert</span> (sc2.sno,sc2.cno,sc2.score) <span class="keyword">values</span>(sc.sno,sc.cno,sc.score);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="TCL语句"><a href="#TCL语句" class="headerlink" title="TCL语句"></a>TCL语句</h2><p>TCL语句包括commit、rollback、savepoint，用于提交和回滚，设置回滚点等操作。当执行了DML语句后使用TCL语句提交或撤回。</p>
+<h3 id="事务开始结束"><a href="#事务开始结束" class="headerlink" title="事务开始结束"></a>事务开始结束</h3><p>事务由连接到数据库后，执行DML、DCL、DDL语句开始，以下情况发送后结束事务：</p>
+<ol>
+<li><p>执行DDL(例如CREATE TABLE),DCL(例如GRANT),系统自动执行COMMIT语句</p>
+</li>
+<li><p>执行COMMIT&#x2F;ROLLBACK</p>
+</li>
+<li><p>退出&#x2F;断开数据库的连接自动执行COMMIT语句</p>
+</li>
+<li><p>进程意外终止，事务自动rollback</p>
+</li>
+<li><p>事务COMMIT时会生成一个唯一的系统变化号（SCN）保存到事务表</p>
+</li>
+</ol>
+<h3 id="事务的特性"><a href="#事务的特性" class="headerlink" title="事务的特性"></a>事务的特性</h3><p>的四个特性ACID :</p>
+<p>   　　　　1. ​     Atomicity（原子性）: 事务中sql语句不可分割，要么都做，要么都不做<br>            　　　　2. Consistency(一致性) ： 指事务操作前后，数据库中数据是一致的，数据满足业务规则约束（例如账户金额的转出和转入），与原子性对应。<br>            3. Isolation（隔离性）：多个并发事务可以独立运行，而不能相互干扰，一个事务修改数据未提交前，其他事务看不到它所做的更改。<br>               4. Durability（持久性）：事务提交后，数据的修改是永久的。</p>
+<h3 id="事务并发问题"><a href="#事务并发问题" class="headerlink" title="事务并发问题"></a>事务并发问题</h3><p><strong>oracle支持的隔离级别：不支持脏读</strong></p>
+<p><strong>幻读</strong>：事务T1读取一条指定where条件的语句，返回结果集。此时事务T2插入一行新记录并commit，恰好满足T1的where条件。然后T1使用相同的条件再次查询，结果集中可以看到T2插入的记录，这条新纪录就是幻想。</p>
+<p><strong>不可重复读</strong>：事务T1读取一行记录，紧接着事务T2修改了T1刚刚读取的记录并commit，然后T1再次查询，发现与第一次读取的记录不同，这称为不可重复读。</p>
+<p><strong>脏读</strong>：事务T1更新了一行记录，还未提交所做的修改，这个T2读取了更新后的数据，然后T1执行回滚操作，取消刚才的修改，所以T2所读取的行就无效，也就是脏数据。</p>
+<h3 id="事务锁"><a href="#事务锁" class="headerlink" title="事务锁"></a>事务锁</h3><p>锁是一种机制，多个事务同时访问一个数据库对象时，该机制可以实现对并发的控制</p>
+<p>oracle中锁的类别</p>
+<ul>
+<li>DDL锁： oracle自动的施加和释放</li>
+<li>DML锁：事务开始时施加，使用Commit后者Rollback被释放、</li>
+<li>内部锁： 由oracle自己管理以保护内部数据库结构</li>
+</ul>
+<p>oracle锁的粒度</p>
+<ul>
+<li>行级锁（TX）：阻止该行上的DML操作，直到Commit或者Rollback</li>
+<li>表级锁（TM）：</li>
+<li>数据库级锁: eg： 将数据库锁定为只读模式 alter database open read only;</li>
+</ul>
+<p>　　　　　 eg: 将数据库设置为限制模式（导入导出数据库时使用）：alter system enable restricted session;</p>
+<h4 id="锁级别"><a href="#锁级别" class="headerlink" title="锁级别"></a>锁级别</h4><table>
+<thead>
+<tr>
+<th>锁模式</th>
+<th>锁描述</th>
+<th>解释</th>
+<th>SQL操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>none</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>null</td>
+<td>无</td>
+<td>select</td>
+</tr>
+<tr>
+<td>2</td>
+<td>RS（行级共享）</td>
+<td>其他事务只能查询</td>
+<td>for update |lock for update|lock row share</td>
+</tr>
+<tr>
+<td>3</td>
+<td>RX（行级排他）</td>
+<td>该事务提交前其他事务无法dml</td>
+<td>insert| update |delete| lock row share</td>
+</tr>
+<tr>
+<td>4</td>
+<td>S（共享）</td>
+<td>共享锁</td>
+<td>create index|lock share</td>
+</tr>
+<tr>
+<td>5</td>
+<td>SRX（共享行级排他锁）</td>
+<td></td>
+<td>lock share row exclusive</td>
+</tr>
+<tr>
+<td>6</td>
+<td>X（排他锁）</td>
+<td>排他锁</td>
+<td>alter table|drop table |drop index|truncate |lock exclusive</td>
+</tr>
+</tbody></table>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">lock <span class="keyword">table</span> emp <span class="keyword">in</span> <span class="type">row</span> share mode;</span><br><span class="line"></span><br><span class="line">lock <span class="keyword">table</span> emp <span class="keyword">in</span> <span class="type">row</span> exclusive mode;  <span class="comment">--用于行的修改</span></span><br><span class="line"></span><br><span class="line">lock <span class="keyword">table</span> emp <span class="keyword">in</span> share mode;   <span class="comment">--阻止其他DML操作</span></span><br><span class="line"></span><br><span class="line">lock <span class="keyword">table</span> emp <span class="keyword">in</span> share <span class="type">row</span> exclusive mode; 　<span class="comment">--阻止其他事务操作</span></span><br><span class="line"></span><br><span class="line">lock <span class="keyword">table</span> emp <span class="keyword">in</span> exclusive mode;  <span class="comment">--独立访问使用</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="避免锁死"><a href="#避免锁死" class="headerlink" title="避免锁死"></a>避免锁死</h4><p>   1.避免应用不运行长事务。</p>
+<ol start="2">
+<li><p>经常提交以避免长时间锁定行。</p>
+</li>
+<li><p>避免使用LOCK命令锁定表。</p>
+</li>
+<li><p>在非高峰期间执行DDL操作，在非高峰期间执行长时间运行的查询或事务。</p>
+</li>
+</ol>
+<h4 id="解锁步骤"><a href="#解锁步骤" class="headerlink" title="解锁步骤"></a>解锁步骤</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1.查看被锁的表</span></span><br><span class="line"><span class="keyword">Select</span> b.owner,b.object_name,a.session_id,a.locked_mode </span><br><span class="line"><span class="keyword">From</span> v$locked_object a,dba_objects b </span><br><span class="line"><span class="keyword">Where</span> b.object_id <span class="operator">=</span> a.object_id;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2.查看那个用户那个进程照成死锁</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> s.sid, q.sql_text </span><br><span class="line"><span class="keyword">FROM</span> v$sqltext q, v$session s </span><br><span class="line"><span class="keyword">WHERE</span> q.address <span class="operator">=</span> s.sql_address <span class="keyword">AND</span> s.sid <span class="operator">=</span> <span class="operator">&amp;</span>sid <span class="comment">-- 这个&amp;sid 是第一步查询出来的 </span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> piece;<span class="comment">--查看导致锁死的SQL</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Select</span> </span><br><span class="line">b.username,b.sid,b.serial#,logon_time </span><br><span class="line"><span class="keyword">From</span> v$locked_object a,v$session b</span><br><span class="line"><span class="keyword">Where</span> a.session_id <span class="operator">=</span> b.sid <span class="keyword">order</span> <span class="keyword">by</span> b.logon_time;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3.杀掉进程</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">&#x27;alter system kill session &#x27;&#x27;&#x27;</span> <span class="operator">||</span> sid <span class="operator">||</span> <span class="string">&#x27;,&#x27;</span> <span class="operator">||</span> serial# <span class="operator">||</span> <span class="string">&#x27;&#x27;&#x27;;&#x27;</span> &quot;Deadlock&quot; <span class="keyword">FROM</span> v$session <span class="keyword">WHERE</span> sid <span class="keyword">IN</span> (<span class="keyword">SELECT</span> sid <span class="keyword">FROM</span> v$lock <span class="keyword">WHERE</span> block <span class="operator">=</span> <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">Alter</span> <span class="keyword">system</span> kill session<span class="string">&#x27;210,11562&#x27;</span>; <span class="operator">/</span><span class="operator">/</span>参数为sid,serial#</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="SQL基础-对象"><a href="#SQL基础-对象" class="headerlink" title="SQL基础-对象"></a>SQL基础-对象</h1><p>数据库对象包括以下内容：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>表空间(tablespace)</td>
+<td>数据文件集合</td>
+</tr>
+<tr>
+<td>表（table）</td>
+<td>用于存储数据</td>
+</tr>
+<tr>
+<td>序列（sequence）</td>
+<td>用于产生一个整数序列，序列用来填充主键</td>
+</tr>
+<tr>
+<td>索引（index）</td>
+<td>用于加快表数据检索</td>
+</tr>
+<tr>
+<td>视图（view）</td>
+<td>为表的预定义查询</td>
+</tr>
+</tbody></table>
+<h2 id="表空间"><a href="#表空间" class="headerlink" title="表空间"></a>表空间</h2><p>Oracle 中所有的数据（包括系统数据），全部保存在表空间中，常见的表空间有：</p>
+<p><strong>系统表空间</strong>：存放系统数据，系统表空间在数据库创建时创建。表空间名称为SYSTEM。存放数据字典和视图以及数据库结构等重要系统数据信息，在运行时如果 SYSTEM 空间不足，对数据库影响会比较大，虽然在系统运行过程中可以通过命令扩充空间，但还是会影响数据库的性能，因此有必要在创建数据库时适当的把数据文件设置大一些。</p>
+<p> <strong>TEMP 表空间</strong>：临时表空间，安装数据库时创建，可以在运行时通过命令增大临时表空间。临时表空间的重要作用是数据排序。比如当用户执行了诸如 Order by 等命令后，服务器需要对所选取数据进行排序，如果数据很大，内存的排序区可能装不下太大数据，就需要把一些中间的排序结果写在硬盘的临时表空间中。</p>
+<p><strong>用户表自定义空间</strong>：用户可以通过 CREATE TABLESPACE 命令创建表空间。</p>
+<h3 id="数据存储方式"><a href="#数据存储方式" class="headerlink" title="数据存储方式"></a>数据存储方式</h3><p>oracle的逻辑结构包括表空间(tablespace)，段(segment),区（extent）,数据块(data block)。oracle数据库在逻辑上是由多个表空间组成的，表空间中存储的对象叫段，比如数据段，索引段，和回退段。</p>
+<p>段由区组成，区是磁盘分配的最小单位。段的增大是通过增加区的个数来实现的。每个区的大小是数据块大小的整数倍，区的大小可以不相同；数据块是数据库中最小的I&#x2F;O单位，同时也是内存数据缓冲区的单位，及数据文件存储空间单位。块的大小由参数DB_BLOCK_SIZE设置，其值应设置为操作系统块大小的整数倍。</p>
+<h4 id="表空间-1"><a href="#表空间-1" class="headerlink" title="表空间"></a>表空间</h4><p>表空间是Oracle数据库最大的逻辑结构，一个Oracle数据库在逻辑上由多个表空间组成，一个表空间只隶属于一个数据库。Oracle中有一个称为SYSTEM的表空间，这个表空间是在创建或安装数据库时自动创建的。主要用于存储系统的数据字典，过程，函数，触发器等；也可以存储用户的表，索引等。一个表空间可以有多数据文件，但是一个数据文件只能属于一个表空间。<br>一个表空间就是一片磁盘区域,他由一个或者多个磁盘文件组成,一个表空间可以容纳许多表、索引或者簇等。每个表空间有一个预制的磁盘区域称为初始区间（initial   extent）用完这个区间后再用下一个，直到用完表空间，这时候需要对表空间进行扩展，增加数据文件或者扩大已经存在的数据文件</p>
+<h4 id="数据段"><a href="#数据段" class="headerlink" title="数据段"></a>数据段</h4><p>Oracle中的段可以分成4种类型：数据段、索引段、回滚段、临时段。数据段用来存储用户的数据，每个表都有一个对应的回滚段，其名称和数据表的名字相同。索引段用来存储系统、用户的索引信息。回滚段用来存储用户数据修改前的值，回退段与事务是一对多的关系，一个事务只能使用一个回退段，而一个回退段可存放一个或多个事务的回退数据。临时段用于order by语句的排序以及一些汇总。</p>
+<h4 id="数据区"><a href="#数据区" class="headerlink" title="数据区"></a>数据区</h4><p>区是磁盘空间分配的最小单位。磁盘按区划分，每次至少分配一个区。区存储于段中，它由连续的数据块组成。区的分配过程中，每次至分配5个区。如果所剩的空闲空间不够5个区，就会出现错误：ORA-01653。可以通过字典dba_tablespaces查询表空间中区的信息。可以通过字典user_tables查询段中区的信息。可以通过字典user_extents查询区的分配状况。我们可以通过以下SQL语句分别查询表空间、段、区中区的分配信息<br>SQL&gt;select  *  from dba_tablespaces;<br>SQL&gt;select table_name, tablespace_name, min_extents, max_extents from user_tables;<br>SQL&gt;select  *  from user_extents;</p>
+<h4 id="数据块"><a href="#数据块" class="headerlink" title="数据块"></a>数据块</h4><p>数据块是数据中中最小的数据组织单位与管理单位，是数据文件磁盘存储空间单位，也是数据库I&#x2F;O 的最小单位，数据块大小由DB_BLOCK_SIZE参数决定，不同的oracle版本DB_BLOCK_SIZE的默认值是不同的。数据块由块头、表目录、行目录、行数据、空余空间组成。</p>
+<p>块头(header&#x2F;Common and Variable)：存放块的基本信息，如：块的物理地址，块所属的段的类型(是数据段还是索引段)。<br>表目录(Table Directory)：存放表的信息，即：如果一些表的数据被存放在这个块中，那么，这些表的相关信息将被存放在“表目录”中。<br>行目录(Row Directory)：如果块中有行数据存在，则，这些行的信息将被记录在行目录中。这些信息包括行的地址等。<br>行数据(Row Data)：是真正存放表数据和索引数据的地方。这部分空间是已被数据行占用的空间。<br>空余空间(Free Space)：空余空间是一个块中未使用的区域，这片区域用于新行的插入和已经存在的行的更新。</p>
+<p>头部信息区(Overhead)：我们把块头(header&#x2F;Common and Variable),表目录(Table Directory),行目录(Row Directory)这三部分合称为头部信息区(Overhead)。头部信息区不存放数据，它存放的整个块的信息。头部信息区的大小是可变的。一般来说，头部信息区的大小介于84字节(bytes)到107字节(bytes)之间。</p>
+<h3 id="表和表空间"><a href="#表和表空间" class="headerlink" title="表和表空间"></a>表和表空间</h3><p>表空间只是一个逻辑概念，若干操作系统文件（文件可以不是很大）可以组成一个表空间。表空间统一管理空间中的数据文件，一个数据文件只能属于一个表空间。一个数据库空间由若干个表空间组成。一个表只能属于一个表空间， 一个表空间可以放任意多个表，一个表空间至少有一个存储文件.dbf文件，也可以有多个，而且这多个数据文件可以在不同位置。一个用户有一个默认的表空间，一个用户可以在默认表空间外的其它表空间建表。</p>
+<h3 id="表空间创建"><a href="#表空间创建" class="headerlink" title="表空间创建"></a>表空间创建</h3><blockquote>
+<p>create tablespace 表空间名 datafile ‘数据文件路径’ size 初始大小（2G） autoextend on next 每次扩展的大小(100M) maxsize 最大容量（unlimited）;</p>
+</blockquote>
+<p>示例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> tablespace TEST_20211009 <span class="comment">--表空间名</span></span><br><span class="line">datafile <span class="string">&#x27;C:\app\orastudy\oradata\orcl\TEST_20211009.DBF&#x27;</span> <span class="comment">--数据文件路径 </span></span><br><span class="line">size <span class="number">10</span>M <span class="comment">--初始大小</span></span><br><span class="line">autoextend <span class="keyword">on</span> next <span class="number">5</span>M <span class="comment">--自增长大小</span></span><br><span class="line">maxsize unlimited; <span class="comment">--最大大小（不限制）</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="表"><a href="#表" class="headerlink" title="表"></a>表</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p>数据按类型分为：字符串类型、数字类型、日期类型、LOB类型、LONG RAW&amp; RAW类型、ROWID &amp; UROWID类型。</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>字符串型</td>
+<td>CHAR()</td>
+<td>CHAR类型，定长字符串，会用空格填充来达到其最大长度。</td>
+</tr>
+<tr>
+<td>字符串型</td>
+<td>NCHAR()</td>
+<td>这是一个包含UNICODE格式数据的定长字符串。NCHAR字段最多可以存储2,000字节的信息。它的最大长度取决于国家字符集。</td>
+</tr>
+<tr>
+<td>字符串型</td>
+<td>VARCHAR2()</td>
+<td>变长字符串，与CHAR类型不同，它不会使用空格填充至最大长度。VARCHAR2最多可以存储4,000字节的信息。</td>
+</tr>
+<tr>
+<td>字符串型</td>
+<td>NVARCHAR2()</td>
+<td>这是一个包含UNICODE格式数据的变长字符串。 NVARCHAR2最多可以存储4,000字节的信息。</td>
+</tr>
+<tr>
+<td>数字型</td>
+<td>NUMBER()</td>
+<td>数据范围为10^130<del>10^126，需要1</del>22字节(BYTE)不等的存储空间。</td>
+</tr>
+<tr>
+<td>数字型</td>
+<td>INTEGER()</td>
+<td>INTEGER是NUMBER的子类型，它等同于NUMBER（38,0），用来存储整数。若插入、更新的数值有小数，则会被四舍五入。</td>
+</tr>
+<tr>
+<td>数字型</td>
+<td>BINARY_FLOAT</td>
+<td>BINARY_FLOAT 是 32 位、 单精度浮点数字数据类型。可以支持至少6位精度,每个 BINARY_FLOAT 的值需要 5 个字节，包括长度字节。</td>
+</tr>
+<tr>
+<td>数字型</td>
+<td>BINARY_DOUBLE</td>
+<td>BINARY_DOUBLE 是为 64 位，双精度浮点数字数据类型。每个 BINARY_DOUBLE 的值需要 9 个字节，包括长度字节。</td>
+</tr>
+<tr>
+<td>数字型</td>
+<td>FLOAT()</td>
+<td>FLOAT类型也是NUMBER的子类型。</td>
+</tr>
+<tr>
+<td>日期型</td>
+<td>DATE</td>
+<td>DATE是最常用的数据类型，日期数据类型存储日期和时间信息。</td>
+</tr>
+<tr>
+<td>日期型</td>
+<td>TIMESTAMP</td>
+<td>与DATE数据类型不同，因为TIMESTAMP可以包含小数秒，带小数秒的TIMESTAMP在小数点右边最多可以保留9位</td>
+</tr>
+<tr>
+<td>日期型</td>
+<td>TIMESTAMP WITH TIME ZONE</td>
+<td>这是TIMESTAMP类型的变种，它包含了时区偏移量的值</td>
+</tr>
+<tr>
+<td>LOB型</td>
+<td>CLOB</td>
+<td>它存储单字节和多字节字符数据。支持固定宽度和可变宽度的字符集。</td>
+</tr>
+<tr>
+<td>LOB型</td>
+<td>NCLOB</td>
+<td>它存储UNICODE类型的数据，支持固定宽度和可变宽度的字符集</td>
+</tr>
+<tr>
+<td>LOB型</td>
+<td>BLOB</td>
+<td>它存储非结构化的二进制数据大对象，它可以被认为是没有字符集语义的比特流，一般是图像、声音、视频等文件。</td>
+</tr>
+<tr>
+<td>LOB型</td>
+<td>BFILE</td>
+<td>二进制文件，存储在数据库外的系统文件，只读的，数据库会将该文件当二进制文件处理</td>
+</tr>
+<tr>
+<td>LOB型</td>
+<td>LONG</td>
+<td>ORACLE建议开发中使用CLOB替代LONG类型。支持LONG 列只是为了保证向后兼容性</td>
+</tr>
+<tr>
+<td></td>
+<td>ROWID</td>
+<td>ORACLE使用通用的ROWID（UROWIDs）的存储地址的索引组织表和外表。索引组织表有逻辑urowids的，和国外表的外urowids，。UROWID这两种类型的存储在ROWID伪（堆组织的表的物理行id）。</td>
+</tr>
+</tbody></table>
+<h3 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h3><p>约束是强加在表上的规则或条件。确保数据库满足业务规则。保证数据的完整性。当对表进行DML或DDL操作时，如果此操作会造成表中的数据违反约束条件或规则的话，系统就会拒绝执行这个操作。约束可以是列一级别的 也可以是表级别的。定义约束时没有给出约束的名字，ORACE系统将为该约束自动生成一个名字，其格式为SYS_Cn，其中n为自然数(强烈建议各位在创建表或增加约束时，给约束定义名称。)。</p>
+<p>约束的功能：实现一些业务规则，防止无效的垃圾数据进入数据库，维护数据库的完整性(完整性指正确性与一致性)。从而使数据库的开发和维护都更加容易。</p>
+<h4 id="约束类型"><a href="#约束类型" class="headerlink" title="约束类型"></a>约束类型</h4><h5 id="主键约束（pk-）"><a href="#主键约束（pk-）" class="headerlink" title="主键约束（pk_）"></a>主键约束（pk_）</h5><p>如果表中一个字段或多个字段组合起来的值是唯一的，就可以作为表的主键，在创建或修改表时用primay key关键字来指定主键。主键是定位表中单个行的方式，可唯一确定表中的某一行，关系型数据库要求所有表都应该有主键，不过Oracle没有遵循此范例要求，Oracle中的表可以没有主键（这种情况不多见）。关于主键有几个需要注意的点：</p>
+<ol>
+<li>键列必须必须具有唯一性，且不能为空，其实主键约束 相当于 UNIQUE+NOT NULL</li>
+<li>一个表只允许有一个主键</li>
+<li>主键所在列必须具有索引（主键的唯一约束通过索引来实现），如果不存在，将会在索引添加的时候自动创建</li>
+</ol>
+<p>主键的作用：</p>
+<ol>
+<li><p>体现数据结构设计的合理性。</p>
+</li>
+<li><p>提升数据操作的速度。</p>
+</li>
+<li><p>保证数据的完整性，在表中添加或修改记录时，数据库会检查该记录主键的值，不允许与其它记录主键的值重复。</p>
+</li>
+</ol>
+<h5 id="唯一约束（uk-）"><a href="#唯一约束（uk-）" class="headerlink" title="唯一约束（uk_）"></a>唯一约束（uk_）</h5><p> 唯一性约束可作用在单列或多列上，对于这些列或列组合，唯一性约束保证每一行的唯一性。</p>
+<p>   UNIQUE需要注意：</p>
+<ol>
+<li>对于UNIQUE约束来讲，索引是必须的。如果不存在，就自动创建一个（UNIQUE的唯一性本质上是通过索引来保证的）</li>
+<li>UNIQUE允许null值，UNIQUE约束的列可存在多个null。这是因为，Unique唯一性通过btree索引来实现，而btree索引中不包含null。当然，这也造成了在where语句中用null值进行过滤会造成全表扫描。</li>
+</ol>
+<h5 id="非空约束（un-）"><a href="#非空约束（un-）" class="headerlink" title="非空约束（un_）"></a>非空约束（un_）</h5><p>非空约束作用的列也叫强制列。顾名思义，强制键列中必须有值，当然建表时候若使用default关键字指定了默认值，则可不输入。</p>
+<h5 id="外键约束-fk"><a href="#外键约束-fk" class="headerlink" title="外键约束(fk_)"></a>外键约束(fk_)</h5><p>外键约束定义在具有父子关系的子表中，外键约束使得子表中的列对应父表的主键列，用以维护数据库的完整性。不过出于性能和后期的业务系统的扩展的考虑，很多时候，外键约束仅出现在数据库的设计中，实际会放在业务程序中进行处理。外键约束注意以下几点：</p>
+<ol>
+<li>　　外键约束的子表中的列和对应父表中的列数据类型必须相同，列名可以不同</li>
+<li>　　对应的父表列必须存在主键约束（PRIMARY KEY）或唯一约束（UNIQUE）</li>
+<li>　　外键约束列允许NULL值，对应的行就成了孤行了</li>
+<li>　　<strong>父表的主键才能做子表的外键</strong></li>
+</ol>
+<p>外键的作用：</p>
+<p><strong>当对从表进行操作时，数据库会：</strong></p>
+<p>​	向从表插入新记录时，如果外键值在主表中不存在，阻止插入。</p>
+<p>​	修改从表的记录时，如果外键的值在主表中不存在，阻止修改。</p>
+<p><strong>当对主表进行修改操作时，数据库会：</strong></p>
+<p>​	主表修改主键值时，旧值在从表里存在便阻止修改。</p>
+<p><strong>当对主表进行删除操作时，数据库会（三选一）：</strong></p>
+<p>​	父表删除行时，其主键值在子表里存在便阻止删除。</p>
+<p>​	父表删除行时，连带子表的相关行一起删除。 <!-- on delete cascade --></p>
+<p>​	父表删除行时，把子表相关行的外键字段置为null。   <!--on delete set null --></p>
+<h5 id="检查约束-ck"><a href="#检查约束-ck" class="headerlink" title="检查约束(ck_)"></a>检查约束(ck_)</h5><p>检查约束可用来实施一些简单的规则，比如列值必须在某个范围内。检查的规则必须是一个结果为true或false 的表达式</p>
+<h4 id="约束状态"><a href="#约束状态" class="headerlink" title="约束状态"></a>约束状态</h4><p>数据库约束有两类状态</p>
+<p>　　<strong>启用&#x2F;禁用（enable&#x2F;disable）</strong>：是否对新变更的数据启用约束验证</p>
+<p>　　<strong>验证&#x2F;非验证 (validate&#x2F;novalidate)</strong> ：是否对表中已客观存在的数据进行约束验证</p>
+<p>这两类四种状态从语法角度讲可以随意组合，默认是 enable validate</p>
+<p><strong>enable validate</strong> : 默认的约束组合状态，无法添加违反约束的数据行，数据表中也不能存在违反约束的数据行；</p>
+<p><strong>enable novalidate</strong> : 无法添加违反约束的数据行，但对已存在的违反约束的数据行不做验证；</p>
+<p><strong>disable validate</strong> : 可以添加违反约束的数据行，但对已存在的违反约束的数据行会做约束验证（从描述中可以看出来，这本来就是一种相互矛盾的约束组合，只不过是语法上支持这种组合罢了，造成的结果就是会导致DML失败）</p>
+<p><strong>disable novalidate</strong> : 可以添加违法约束的数据行，对已存在的违反约束的数据行也不做验证。</p>
+<h3 id="表创建语句"><a href="#表创建语句" class="headerlink" title="表创建语句"></a>表创建语句</h3><blockquote>
+<p>Create[global temporary]  table</p>
+<p>(列名 数据类型，</p>
+<p>列名 数据类型，</p>
+<p>列名 数据类型，</p>
+<p>…………)</p>
+<p>[tablespace 表空间名称];</p>
+</blockquote>
+<h4 id="临时表创建"><a href="#临时表创建" class="headerlink" title="临时表创建"></a>临时表创建</h4><blockquote>
+<p>Create global temporary  table</p>
+<p>(列名 数据类型，</p>
+<p>列名 数据类型，</p>
+<p>列名 数据类型，</p>
+<p>…………)</p>
+<p>on commit preserve  rows;–会话临时表</p>
+</blockquote>
+<p>会话临时表再会话关闭以后清空表数据</p>
+<blockquote>
+<p>Create global temporary  table</p>
+<p>(列名 数据类型，</p>
+<p>列名 数据类型，</p>
+<p>列名 数据类型，</p>
+<p>…………)</p>
+<p>on commit delete rows;–事务临时表</p>
+</blockquote>
+<p>事务临时表再进行了commit或rollback 或者ddl语句后清空表数据。</p>
+<p>with as</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">-</span>– 针对一个别名</span><br><span class="line"><span class="keyword">with</span> tmp <span class="keyword">as</span> (<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tb_name)</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span>– 针对多个别名</span><br><span class="line"><span class="keyword">with</span></span><br><span class="line">tmp <span class="keyword">as</span> (<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tb_name),</span><br><span class="line">tmp2 <span class="keyword">as</span> (<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tb_name2),</span><br><span class="line">tmp3 <span class="keyword">as</span> (<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tb_name3),</span><br><span class="line">…</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="分区表创建"><a href="#分区表创建" class="headerlink" title="分区表创建"></a>分区表创建</h4><p> 分区是将一个表或索引物理地分解为多个更小、更可管理的部分。</p>
+<p>分区对应用透明，即对访问数据库的应用而言，逻辑上讲只有一个表或一个索引（相当于应用“看到”的只是一个表或索引），但在物理上这个表或索引可能由数十个物理分区组成。</p>
+<p>每个分区都是一个独立的对象，可以独自处理，也可以作为一个更大对象的一部分进行处理。</p>
+<ul>
+<li>表数据量大于2GB时应该考虑使用分区</li>
+<li>新数据均加入至最新分区中的用于存储历史数据的表</li>
+</ul>
+<p>表分区的四种类型：</p>
+<ul>
+<li>范围分区（Range） between</li>
+<li>散列分区（Hash）  hash</li>
+<li>列表分区（List）  in 某几个关键字</li>
+<li>组合分区（Range – Hash  或者  Range - List）</li>
+</ul>
+<p>自增分区 用于时间分区方式 	</p>
+<h5 id="范围分区创建"><a href="#范围分区创建" class="headerlink" title="范围分区创建"></a>范围分区创建</h5><p>​	示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> ORDER_ACTIVITIES   </span><br><span class="line">(   </span><br><span class="line">    ORDER_ID      NUMBER(<span class="number">7</span>) <span class="keyword">NOT NULL</span>,   </span><br><span class="line">    ORDER_DATE    <span class="type">DATE</span>,   </span><br><span class="line">    TOTAL_AMOUNT NUMBER,   </span><br><span class="line">    CUSTOTMER_ID NUMBER(<span class="number">7</span>),   </span><br><span class="line">    PAID   <span class="type">CHAR</span>(<span class="number">1</span>)   </span><br><span class="line">)   <span class="comment">-- 建表语句不变</span></span><br><span class="line"><span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">RANGE</span> (ORDER_DATE) <span class="comment">-- 范围分区创建 语句 关键字 range(列名)</span></span><br><span class="line">(  </span><br><span class="line">  <span class="keyword">PARTITION</span> ORD_ACT_PART01 <span class="keyword">VALUES</span> LESS THAN (TO_DATE(<span class="string">&#x27;01- MAY -2003&#x27;</span>,<span class="string">&#x27;DD-MON-YYYY&#x27;</span>)) TABLESPACE ORD_TS01,  <span class="comment">-- 分区名 （时间值）表空间</span></span><br><span class="line">  <span class="keyword">PARTITION</span> ORD_ACT_PART02 <span class="keyword">VALUES</span> LESS THAN (TO_DATE(<span class="string">&#x27;01-JUN-2003&#x27;</span>,<span class="string">&#x27;DD-MON-YYYY&#x27;</span>)) TABLESPACE ORD_TS02,  </span><br><span class="line">  <span class="keyword">PARTITION</span> ORD_ACT_PART02 <span class="keyword">VALUES</span> LESS THAN (MAXVALUE) TABLESPACE ORD_TS03   <span class="comment">--使用maxvalue 将其他不符合上述范围的值放入其中</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h5 id="列表分区创建"><a href="#列表分区创建" class="headerlink" title="列表分区创建"></a>列表分区创建</h5><p>一个分区可放一个 值或多个值</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> ORDER_ACTIVITIES  </span><br><span class="line">(   </span><br><span class="line">    PROBLEM_ID   NUMBER(<span class="number">7</span>) <span class="keyword">NOT NULL</span> <span class="keyword">PRIMARY KEY</span>,   </span><br><span class="line">    DESCRIPTION  VARCHAR2(<span class="number">2000</span>),   </span><br><span class="line">    CUSTOMER_ID  NUMBER(<span class="number">7</span>) <span class="keyword">NOT NULL</span>,   </span><br><span class="line">    DATE_ENTERED <span class="type">DATE</span> <span class="keyword">NOT NULL</span>,   </span><br><span class="line">    STATUS       VARCHAR2(<span class="number">20</span>)</span><br><span class="line">)   </span><br><span class="line"></span><br><span class="line"><span class="keyword">PARTITION</span> <span class="keyword">BY</span> LIST (STATUS)    <span class="comment">-- 范围分区创建 语句 关键字 LIST(列名)</span></span><br><span class="line">(   </span><br><span class="line">      <span class="keyword">PARTITION</span> PROB_ACTIVE   <span class="keyword">VALUES</span> (<span class="string">&#x27;ACTIVE&#x27;</span>) TABLESPACE PROB_TS01,  <span class="comment">-- </span></span><br><span class="line">      <span class="keyword">PARTITION</span> PROB_INACTIVE <span class="keyword">VALUES</span> (<span class="string">&#x27;INACTIVE&#x27;</span>,<span class="string">&#x27;unknow&#x27;</span>) TABLESPACE PROB_TS02  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="哈希分区创建"><a href="#哈希分区创建" class="headerlink" title="哈希分区创建"></a>哈希分区创建</h5><p>hash分区最主要的机制是根据hash算法来计算具体某条纪录应该插入到哪个分区中,hash算法中最重要的是hash函数，Oracle中如果你要使用hash分区，只需指定分区的数量即可。建议分区的数量采用2的n次方，这样可以使得各个分区间数据分布更加均匀。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> HASH_TABLE   </span><br><span class="line">(   </span><br><span class="line">  COL NUMBER(<span class="number">8</span>),   </span><br><span class="line">  INF VARCHAR2(<span class="number">100</span>)   </span><br><span class="line">)   </span><br><span class="line"><span class="keyword">PARTITION</span> <span class="keyword">BY</span> HASH (COL)    <span class="comment">-- 范围分区创建 语句 关键字 HASH(列名) </span></span><br><span class="line">(   </span><br><span class="line">  <span class="keyword">PARTITION</span> PART01 TABLESPACE HASH_TS01,   </span><br><span class="line">  <span class="keyword">PARTITION</span> PART02 TABLESPACE HASH_TS02,   </span><br><span class="line">  <span class="keyword">PARTITION</span> PART03 TABLESPACE HASH_TS03   </span><br><span class="line">) </span><br></pre></td></tr></table></figure>
+
+<h5 id="组合分区（RANGE-LIST-和-RANGE-HASH）"><a href="#组合分区（RANGE-LIST-和-RANGE-HASH）" class="headerlink" title="组合分区（RANGE-LIST 和 RANGE-HASH）"></a>组合分区（RANGE-LIST 和 RANGE-HASH）</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> SALES   </span><br><span class="line">(  </span><br><span class="line">PRODUCT_ID VARCHAR2(<span class="number">5</span>),  </span><br><span class="line">SALES_DATE <span class="type">DATE</span>,  </span><br><span class="line">SALES_COST NUMBER(<span class="number">10</span>),  </span><br><span class="line">STATUS VARCHAR2(<span class="number">20</span>)  </span><br><span class="line">)  </span><br><span class="line"><span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">RANGE</span>(SALES_DATE) SUBPARTITION <span class="keyword">BY</span> LIST (STATUS)  </span><br><span class="line">(  </span><br><span class="line">   <span class="keyword">PARTITION</span> P1 <span class="keyword">VALUES</span> LESS THAN(TO_DATE(<span class="string">&#x27;2003-01-01&#x27;</span>,<span class="string">&#x27;YYYY-MM-DD&#x27;</span>))TABLESPACE rptfact2009   </span><br><span class="line">  (   </span><br><span class="line">      SUBPARTITION P1SUB1 <span class="keyword">VALUES</span> (<span class="string">&#x27;ACTIVE&#x27;</span>) TABLESPACE rptfact2009,   </span><br><span class="line">      SUBPARTITION P1SUB2 <span class="keyword">VALUES</span> (<span class="string">&#x27;INACTIVE&#x27;</span>) TABLESPACE rptfact2009   </span><br><span class="line">  ),   </span><br><span class="line">   <span class="keyword">PARTITION</span> P2 <span class="keyword">VALUES</span> LESS THAN (TO_DATE(<span class="string">&#x27;2003-03-01&#x27;</span>,<span class="string">&#x27;YYYY-MM-DD&#x27;</span>)) TABLESPACE rptfact2009   </span><br><span class="line">  (   </span><br><span class="line">      SUBPARTITION P2SUB1 <span class="keyword">VALUES</span> (<span class="string">&#x27;ACTIVE&#x27;</span>) TABLESPACE rptfact2009,   </span><br><span class="line">      SUBPARTITION P2SUB2 <span class="keyword">VALUES</span> (<span class="string">&#x27;INACTIVE&#x27;</span>) TABLESPACE rptfact2009   </span><br><span class="line">  )   </span><br><span class="line">)  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="分区表管理"><a href="#分区表管理" class="headerlink" title="分区表管理"></a>分区表管理</h4><h5 id="添加分区"><a href="#添加分区" class="headerlink" title="添加分区"></a>添加分区</h5><p>以下代码给SALES表添加了一个P3分区</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> SALES <span class="keyword">ADD</span> <span class="keyword">PARTITION</span> P3 <span class="keyword">VALUES</span> LESS THAN(TO_DATE(<span class="string">&#x27;2003-06-01&#x27;</span>,<span class="string">&#x27;YYYY-MM-DD&#x27;</span>));  </span><br></pre></td></tr></table></figure>
+
+<p>注意：以上添加的分区界限应该高于最后一个 分区界限。<br>以下代码给SALES表的P3分区添加了一个P3SUB1子分区</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> SALES MODIFY <span class="keyword">PARTITION</span> P3 <span class="keyword">ADD</span> SUBPARTITION P3SUB1 <span class="keyword">VALUES</span>(<span class="string">&#x27;COMPLETE&#x27;</span>); </span><br></pre></td></tr></table></figure>
+
+<h5 id="删除分区"><a href="#删除分区" class="headerlink" title="删除分区"></a>删除分区</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> SALES <span class="keyword">DROP</span> <span class="keyword">PARTITION</span> P3;  </span><br><span class="line"><span class="keyword">ALTER TABLE</span> SALES <span class="keyword">DROP</span> SUBPARTITION P4SUB1; </span><br></pre></td></tr></table></figure>
+
+<p>注意：如果删除的分区是表中唯一的分区，那么此分区将不能被删除，要想删除此分区，必须删除表。</p>
+<h5 id="截断分区"><a href="#截断分区" class="headerlink" title="截断分区"></a>截断分区</h5><p>截断某个分区是指删除某个分区中的数据，并不会删除分区，也不会删除其它分区中的数据。当表中即使只有一个分区时，也可以截断该分区。通过以下代码截断分区：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> SALES <span class="keyword">TRUNCATE</span> <span class="keyword">PARTITION</span> P2; </span><br></pre></td></tr></table></figure>
+
+<p>通过以下代码截断子分区：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> SALES <span class="keyword">TRUNCATE</span> SUBPARTITION P2SUB2; </span><br></pre></td></tr></table></figure>
+
+<h5 id="合并分区"><a href="#合并分区" class="headerlink" title="合并分区"></a>合并分区</h5><p>合并分区是将相邻的分区合并成一个分区，结果分区将采用较高分区的界限，值得注意的是，不能将分区合并到界限较低的分区。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> SALES <span class="keyword">MERGE</span> PARTITIONS P1,P2 <span class="keyword">INTO</span> <span class="keyword">PARTITION</span> P2 <span class="keyword">UPDATE</span> INDEXES; </span><br></pre></td></tr></table></figure>
+
+<p>–如果省略update indexes子句的话，必须重建受影响的分区的index;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> range_example MODIFY <span class="keyword">PARTITION</span> part02 REBUILD UN</span><br></pre></td></tr></table></figure>
+
+<h5 id="拆分分区"><a href="#拆分分区" class="headerlink" title="拆分分区"></a>拆分分区</h5><p>拆分分区将一个分区拆分两个新分区，拆分后原来分区不再存在。注意不能对HASH类型的分区进行拆分。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> SALES SBLIT <span class="keyword">PARTITION</span> P2 <span class="keyword">AT</span>(TO_DATE(<span class="string">&#x27;2003-02-01&#x27;</span>,<span class="string">&#x27;YYYY-MM-DD&#x27;</span>)) <span class="keyword">INTO</span> (<span class="keyword">PARTITION</span> P21,<span class="keyword">PARTITION</span> P22);</span><br></pre></td></tr></table></figure>
+
+<h5 id="接合分区（coalesce）"><a href="#接合分区（coalesce）" class="headerlink" title="接合分区（coalesce）"></a>接合分区（coalesce）</h5><p>分区接合是针对散列分区或者*-散列子分区的，目的是减少分区数。当某个散列分区接合后，Oracle将其分区的数据分散到其它分区中。被接合的分区是由数据库选择的，接合完成后该分区会被删除，且如果没有使用UPDATE INDEX子句，本地索引和全局索引均将变成不可用，一般需要重建索引。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 散列分区表的散列分区接合  </span></span><br><span class="line"><span class="keyword">ALTER TABLE</span> table_name COALESCE <span class="keyword">PARTITION</span>;  </span><br><span class="line"><span class="comment">-- 散列分区表的散列子分区接合  </span></span><br><span class="line"><span class="keyword">ALTER TABLE</span> table_name MODIFY <span class="keyword">PARTITION</span> partition_name COALESCE SUBPARTITION;</span><br></pre></td></tr></table></figure>
+
+<h5 id="重命名表分区"><a href="#重命名表分区" class="headerlink" title="重命名表分区"></a>重命名表分区</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> table_name RENAME <span class="keyword">PARTITION</span> old_name <span class="keyword">TO</span> new_name;  </span><br><span class="line"><span class="keyword">ALTER TABLE</span> table_name RENAME SUBPARTITION old_name <span class="keyword">TO</span> new_name;</span><br></pre></td></tr></table></figure>
+
+<h5 id="交换分区"><a href="#交换分区" class="headerlink" title="交换分区"></a>交换分区</h5><p>可以将一个分区(子分区)和非分区表进行数据交换，oracle交换的方法是其实是对逻辑存储段进行交换。同样，散列|范围|列表分区可以与复合*-散列|<em>-范围|</em>-列表分区间也可以进行数据交换。当应用中需要将非分区表的数据转换进入分区表的分区时非常高效实用。使用INCLUDEING INDEXES子句可以同步将本地索引也进行交换，使用WITH VALIDATATION子句还可以实现行数据的验证。</p>
+<p>交换分区时如果不带UPDATE INDEXES子句，则全局索引或全局索引基于的分区将变为不可用。</p>
+<ul>
+<li>1）三种单级分区与非分区表的交换</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER TABLE</span> table_name EXCHANGE <span class="keyword">PARTITION</span> partition_name <span class="keyword">WITH</span> <span class="keyword">TABLE</span> nonpartition_name;</span><br></pre></td></tr></table></figure>
+
+<h4 id="查询分区"><a href="#查询分区" class="headerlink" title="查询分区"></a>查询分区</h4><h2 id="查询索引信息"><a href="#查询索引信息" class="headerlink" title="查询索引信息"></a>查询索引信息</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> object_name,object_type,tablespace_name,<span class="built_in">sum</span>(<span class="keyword">value</span>)  </span><br><span class="line"><span class="keyword">from</span> v$segment_statistics  </span><br><span class="line"><span class="keyword">where</span> statistic_name <span class="keyword">IN</span> (<span class="string">&#x27;physical reads&#x27;</span>,<span class="string">&#x27;physical write&#x27;</span>,<span class="string">&#x27;logical reads&#x27;</span>)<span class="keyword">and</span> object_type<span class="operator">=</span><span class="string">&#x27;INDEX&#x27;</span>  </span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> object_name,object_type,tablespace_name  </span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="number">4</span> <span class="keyword">desc</span>  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--显示数据库所有分区表的信息：  </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> DBA_PART_TABLES  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--显示当前用户可访问的所有分区表信息:  </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> ALL_PART_TABLES  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--显示当前用户所有分区表的信息：  </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> USER_PART_TABLES  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--显示表分区信息 显示数据库所有分区表的详细分区信息：  </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> DBA_TAB_PARTITIONS  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--显示当前用户可访问的所有分区表的详细分区信息：  </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> ALL_TAB_PARTITIONS  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--显示当前用户所有分区表的详细分区信息：  </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> USER_TAB_PARTITIONS  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--显示子分区信息 显示数据库所有组合分区表的子分区信息：  </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> DBA_TAB_SUBPARTITIONS  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--显示当前用户可访问的所有组合分区表的子分区信息：  </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> ALL_TAB_SUBPARTITIONS  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--显示当前用户所有组合分区表的子分区信息：  </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> USER_TAB_SUBPARTITIONS  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--显示分区列 显示数据库所有分区表的分区列信息：  </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> DBA_PART_KEY_COLUMNS  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--显示当前用户可访问的所有分区表的分区列信息：  </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> ALL_PART_KEY_COLUMNS  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--显示当前用户所有分区表的分区列信息：  </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> USER_PART_KEY_COLUMNS  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--显示子分区列 显示数据库所有分区表的子分区列信息：  </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> DBA_SUBPART_KEY_COLUMNS  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--显示当前用户可访问的所有分区表的子分区列信息：  </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> ALL_SUBPART_KEY_COLUMNS  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--显示当前用户所有分区表的子分区列信息：  </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> USER_SUBPART_KEY_COLUMNS  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--怎样查询出oracle数据库中所有的的分区表  </span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> user_tables a <span class="keyword">where</span> a.partitioned<span class="operator">=</span><span class="string">&#x27;YES&#x27;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--删除一个表的数据是  </span></span><br><span class="line"><span class="keyword">truncate</span> <span class="keyword">table</span> table_name;  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--删除分区表一个分区的数据是  </span></span><br><span class="line"><span class="keyword">alter table</span> table_name <span class="keyword">truncate</span> <span class="keyword">partition</span> p5; </span><br></pre></td></tr></table></figure>
+
+<p>一般一张表超过2G的大小，ORACLE是推荐使用分区表的，分区一般都需要 创建索引，说到分区索引，就可以分为：全局索引、分区索引，即：global索引和local索引，前者为默认情况下在分区表上创建索引时的索引方式，并 不对索引进行分区（索引也是表结构，索引大了也需要分区，关于索引以后专门写点）而全局索引可修饰为分区索引，但是和local索引有所区别，前者的分区 方式完全按照自定义方式去创建，和表结构完全无关.</p>
+<h2 id="序列"><a href="#序列" class="headerlink" title="序列"></a>序列</h2><p>Sequence 是oracle提供的用于产生一系列唯一数字的数据库对象。由于oracle中没有设置自增列的方法，所以我们在oracle数据库中主要用序列来实现主键自增的功能。</p>
+<h3 id="创建序列"><a href="#创建序列" class="headerlink" title="创建序列"></a>创建序列</h3><blockquote>
+<p>Create sequence 序列名</p>
+<p>[Start with 开始数字</p>
+<p>Increment by 增量数</p>
+<p>Maxvalue 最大数|nomaxvalue</p>
+<p>Minvalue 最小数|nominvalue</p>
+<p>Cycle|nocycle –到达最大或最小时是否继续</p>
+<p>Cache 缓存个数|nocache</p>
+<p>Order|noorder –确保按照请求次序生成整数]</p>
+</blockquote>
+<h3 id="使用序列"><a href="#使用序列" class="headerlink" title="使用序列"></a>使用序列</h3><p>使用nextval 和currval值获取 序列中的值，<strong>一条sql语句获取一次序列值，和nextval调用次数无关。</strong></p>
+<blockquote>
+<p>Insert into 表名 (主键，列名，列名）values（序列名.nextval,’’,’’）</p>
+<p>Insert into 表名 (主键，列名，列名）values（序列名.currval,’’,’’）</p>
+</blockquote>
+<p>通过上述我们发现使用序列有几个基本的约束条件,总结有以下几条：</p>
+<ul>
+<li><p>序列第一次必须先调用nextval获取一个序列值才能使用currval查看当前值</p>
+</li>
+<li><p>序列的起始值不能小于最小值</p>
+</li>
+<li><p>创建一个循环序列,则必须要设定最大值</p>
+</li>
+<li><p>如果创建带缓存的序列,缓存的值必须满足约束公式: 最大值-最小值&gt;&#x3D;(缓存值-1)*每次循环的值</p>
+</li>
+</ul>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>在对包含很多行的表进行检索其中几行数据时，都应该创建索引，以加快检索速度。索引是数据库对象之一，用于加快数据的检索，类似于书籍的索引。在数据库中索引可以减少数据库程序查询结果时需要读取的数据量，类似于在书籍中我们利用索引可以不用翻阅整本书即可找到想要的信息。</p>
+<p>索引是建立在表上的可选对象；索引的关键在于通过一组排序后的索引键来取代默认的全表扫描检索方式，从而提高检索效率。索引在逻辑上和物理上都与相关的表和数据无关，当创建或者删除一个索引时，不会影响基本的表；索引一旦建立，在表上进行DML操作时（例如在执行插入、修改或者删除相关操作时），oracle会自动管理索引，索引删除，不会对表产生影响。索引对用户是透明的，无论表上是否有索引，sql语句的用法不变。oracle创建主键时会自动在该列上创建索引。</p>
+<p>若没有索引，搜索某个记录时（例如查找name&#x3D;’wish’）需要搜索所有的记录，因为不能保证只有一个wish，必须全部搜索一遍。若在name上建立索引，oracle会对全表进行一次搜索，将每条记录的name值哪找升序排列，然后构建索引条目（name和rowid），存储到索引段中，查询name为wish时即可直接查找对应地方。创建了索引并不一定就会使用，oracle自动统计表的信息后，决定是否使用索引，表中数据很少时使用全表扫描速度已经很快，没有必要使用索引</p>
+<h3 id="索引的创建"><a href="#索引的创建" class="headerlink" title="索引的创建"></a>索引的创建</h3><blockquote>
+<p>create [unique|BITMAP] index 索引名称 on 表名（列名[，列名]） tablespace  表空间名；</p>
+</blockquote>
+<p>unique 用于指定是否强制要求索引列为唯一性数据，表空间可选择是否指定，不指定则用默认表空间。出于性能考虑索引表空间和表的表空间 要分开。</p>
+<p>可是创建基于函数的索引如 upper（‘xxx’） 但需要使用</p>
+<p>alter system set query_rewrite_enabled&#x3D;true 打开限制</p>
+<p>通过alter index 修改索引</p>
+<blockquote>
+<p>alter index 索引名 rename to 新索引名；</p>
+</blockquote>
+<p>通过drop 删除索引</p>
+<blockquote>
+<p>drop index 索引名； –删除索引</p>
+</blockquote>
+<p>分区表索引创建示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX INX_TAB_PARTITION_COL1 <span class="keyword">ON</span> TABLE_PARTITION(COL1)</span><br><span class="line">  <span class="keyword">GLOBAL</span> <span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">RANGE</span>(COL1)(</span><br><span class="line">         <span class="keyword">PARTITION</span> IDX_P1 <span class="keyword">values</span> less than (<span class="number">1000000</span>),</span><br><span class="line">         <span class="keyword">PARTITION</span> IDX_P2 <span class="keyword">values</span> less than (<span class="number">2000000</span>),</span><br><span class="line">         <span class="keyword">PARTITION</span> IDX_P3 <span class="keyword">values</span> less than (MAXVALUE)</span><br><span class="line">  );</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="索引的类型"><a href="#索引的类型" class="headerlink" title="索引的类型"></a>索引的类型</h3><h4 id="B树索引"><a href="#B树索引" class="headerlink" title="B树索引"></a>B树索引</h4><p>oracle中最常用的索引；B树索引结构主要由三部分组成：根节点、分支节点、叶子节点。 B树索引就是一颗二叉树；叶子节点（双向链表）包含索引列和指向表中每个匹配行的ROWID值。所有叶子节点具有相同的深度，因而不管查询条件怎样，查询速度基本相同。B树索引结构能够适应精确查询、模糊查询和比较查询</p>
+<p><img src="D:\oracle\btree.jpg" alt="btree"></p>
+<h4 id="位图索引"><a href="#位图索引" class="headerlink" title="位图索引"></a>位图索引</h4><p>创建位图索引时，oracle会扫描整张表，并为索引列的每个取值建立一个位图（位图中，对表中每一行使用一位（bit，0或者1）来标识该行是否包含该位图的索引列的取值，如果为1，表示对应的rowid所在的记录包含该位图索引列值），最后通过位图索引中的映射函数完成位到行的ROWID的转换</p>
+<h3 id="索引tips"><a href="#索引tips" class="headerlink" title="索引tips"></a>索引tips</h3><ol>
+<li>索引应该经常建在Where子句经常用到的列上，且大表常用字段进行查询，且检索行数在总表行数的5-15%。则应该考虑。</li>
+<li>两表连接的字段，建立索引</li>
+<li>Order By后面常用字段,则也经过进行索引。</li>
+<li>不应该在小表上建设索引。</li>
+<li>where子句中有OR 操作符或单独引用Job 列(索引列的后面列) 则将不会走索引，将会进行全表扫描 union</li>
+<li>LIKE ‘%ABC%’ 索引失效， ‘ABC%’ 可以经过索引</li>
+<li>Not Null&#x2F;Null索引失效</li>
+<li>索引列上不要使用函数，如SELECT column1 FROM tab1 WHERE substr(name,1,3) &#x3D; ‘ABC’  initcap（ename）</li>
+<li>索引列上不能进行计算SELECT column1 FROM tab1 WHERE column1&#x2F;10&gt;10则索引失效，改成SELECT column1 FROM tab1 WHERE column1&gt;10*10 </li>
+<li>1索引列上不要使用NOT(!&#x3D;、 &lt;&gt;)如:SELECT column1 FROM tab1 WHERE column1 ! &#x3D; 10 改成：SELECT column1 FROM tab1 WHERE column1 &gt; 10 OR column1 &lt; 10 。</li>
+<li>用UNION替换OR</li>
+<li>用EXISTS替代IN、用NOT EXISTS替代NOT IN</li>
+<li>复合索引，必须使用主索引列，如复合索引(deptno,job)，则</li>
+</ol>
+<p>​	WHERE deptno&#x3D;20 AND job&#x3D;’MANAGER’ √、</p>
+<p>​	WHERE deptno&#x3D;20 √、</p>
+<p>​	WHERE job&#x3D;’MANAGER’ AND deptno&#x3D;20 √、在&#96;</p>
+<p>​	WHERE job&#x3D;’MANAGER’ ×</p>
+<p>簇组索引</p>
+<p>b+tree 索引</p>
+<h3 id="局部索引local-index"><a href="#局部索引local-index" class="headerlink" title="局部索引local index"></a>局部索引local index</h3><ol>
+<li>局部索引一定是分区索引，分区键等同于表的分区键，分区数等同于表的分区说，一句话，局部索引的分区机制和表的分区机制一样。 </li>
+<li>如果局部索引的索引列以分区键开头，则称为前缀局部索引。 </li>
+<li>如果局部索引的列不是以分区键开头，或者不包含分区键列，则称为非前缀索引。 </li>
+<li>前缀和非前缀索引都可以支持索引分区消除，前提是查询的条件中包含索引分区键。 </li>
+<li>局部索引只支持分区内的唯一性，无法支持表上的唯一性，因此如果要用局部索引去给表做唯一性约束，则约束中必须要包括分区键列。 </li>
+<li>局部分区索引是对单个分区的，每个分区索引只指向一个表分区，全局索引则不然，一个分区索引能指向n个表分区，同时，一个表分区，也可能指向n个索引分区， 对分区表中的某个分区做truncate或者move，shrink等，可能会影响到n个全局索引分区，正因为这点，局部分区索引具有更高的可用性。 </li>
+<li>位图索引只能为局部分区索引。 </li>
+<li>局部索引多应用于数据仓库环境中。</li>
+</ol>
+<p>全局索引global index </p>
+<ol>
+<li>全局索引的分区键和分区数和表的分区键和分区数可能都不相同，表和全局索引的分区机制不一样。 </li>
+<li>全局索引可以分区，也可以是不分区索引，全局索引必须是前缀索引，即全局索引的索引列必须是以索引分区键作为其前几列。 </li>
+<li>全局分区索引的索引条目可能指向若干个分区，因此，对于全局分区索引，即使只动，截断一个分区中的数据，都需要rebulid若干个分区甚<br>至是整个索引。 </li>
+<li>全局索引多应用于oltp系统中。 </li>
+<li>全局分区索引只按范围或者散列hash分区，hash分区是10g以后才支持。 </li>
+<li>oracle9i以后对分区表做move或者truncate的时可以用update global indexes语句来同步更新全局分区索引，用消耗一定资源来换取高度的可用性。 </li>
+<li>表用a列作分区，索引用b做局部分区索引，若where条件中用b来查询，那么oracle会扫描所有的表和索引的分区，成本会比分区更高，此时可以考虑用b做全局分区索引</li>
+</ol>
+<h3 id="oracle执行计划"><a href="#oracle执行计划" class="headerlink" title="oracle执行计划"></a>oracle执行计划</h3><p>查看执行计划的方法有多种，依次如下：</p>
+<p>1、打开熟悉的查看工具：PL&#x2F;SQL Developer。 </p>
+<p>在PL&#x2F;SQL Developer中写好一段SQL代码后，按F5，PL&#x2F;SQL Developer会自动打开执行计划窗口，显示该SQL的执行计划。</p>
+<p>2、explain plan for命令</p>
+<p>在sql*plus或者PL&#x2F;SQL Developer打开的command window中，执行如下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">explain plan for select * from dual;  --+回车</span><br><span class="line"></span><br><span class="line">select * from table(dbms_xplan.display); -- +回车</span><br></pre></td></tr></table></figure>
+
+<p>说明1 explain plan 查看目标SQL 执行计划时，目标SQL不会真正的执行。<br>说明2 explain plan得到执行计划不一定准确， 当explain plan 执行的目标SQL绑定变量时，得到执行计划不准确<br>说明3 explain plan 执行目标为DML语句时会真正去执行，例如 delete from t1。</p>
+<h4 id="访问路径（Access-Method）"><a href="#访问路径（Access-Method）" class="headerlink" title="访问路径（Access Method）"></a>访问路径（Access Method）</h4><p>  访问方法（或访问路径）用于描述优化器如何从每个表（或索引）中访问数据。访问路径展示在执行计划的Operation字段中。</p>
+<p><strong>全表扫描（Full Table Scan）</strong></p>
+<p>  从表中读取所有行，并过滤不符合Where子句谓词的行。全表扫描会使用多块IO（通常为1MB大小的IOs）。在需要访问表中的大部分行，或不存在索引、或不能使用现有的索引、或预估成本最低的情况下，优化器会选择全表扫描。优化器是否会选择全表扫描也受到以下因素的影响：</p>
+<ul>
+<li>Init.ora配置文件中的参数db_multi_block_read_count</li>
+<li>并行度</li>
+<li>提示（Hint）</li>
+<li>缺少可使用的索引</li>
+<li>使用索引成本偏高</li>
+</ul>
+<p><strong>通过ROWID访问（Table Access by ROWID）</strong></p>
+<p>  数据行的rowid指定数据文件、文件中的数据块和块中的数据行位置。优化器会从Where子句谓词或通过对一个或多个表索引的扫描获得rowids，然后再根据其rowid定位表中每个选定的行，并进行逐行访问。</p>
+<p><strong>索引唯一扫描（Index Unique Scan）</strong></p>
+<p>  索引唯一扫描中将仅返回一行数据。当一个惟一（B-tree）索引上存在等式谓词，或索引是由主键约束产生时，Oracle将采用这种访问路径。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5601-68314a9d45daeca6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1080/format/webp" alt="img"></p>
+<p>图14 使用Index unique scan的执行计划</p>
+<p><strong>索引范围扫描（Index Range Scan）</strong></p>
+<p>  索引范围扫描指的是优化器在访问索引时会一并访问相邻的索引项，然后使用索引中的ROWID值从表中访问相应的数据行。索引范围扫描可以是有界的，也可以是无界的。当语句在非唯一索引上有等式谓词，或在唯一索引上有不相等或范围谓词（如&#x3D;，&lt;，&gt;，非前导列的Like）时，Oracle优化器将使用索引范围扫描。数据行将按索引列的升序返回。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5601-a7e2f579a80e6db4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1079/format/webp" alt="img"></p>
+<p>图15 使用Index range scan的执行计划</p>
+<p>  索引范围扫描-逆序（Index range scan descending）在概念上与索引范围扫描相同，区别在于当存在ORDER BY…DESCENDING，且降序条件可以由索引来满足时，Oracle将会使用这种访问路径。</p>
+<p><strong>索引跳跃扫描（Index Skip Scan）</strong></p>
+<p>  通常，为了能使用到索引，查询条件中必须包含索引的前导列（即复合索引中靠前的索引列）。但是，如果在查询语句中引用了索引中除第一列之外的所有其他列，Oracle可以进行索引跳跃扫描，跳过索引的第一列而使用其余的列。如果复合索引的第一列只存在少量不同值，而在索引的其他列中存在许多不同的值，那么使用索引跳跃扫描将会提高查询效率。</p>
+<p><strong>索引全扫描（Index Full Scan）</strong></p>
+<p>  与其字面含义不同，索引全扫描并不会扫描索引结构中的每个块。索引全扫描会扫描一个索引的所有叶子块，并只需处理足够数量的分支块直到找到第一个叶子块。当满足语句所需的所有列都在索引中并且扫描索引成本比扫描表更低时，Oracle就会使用索引全扫描。索引全扫描使用单块IO。在下列任何一种情况中都可能会使用索引全扫描：</p>
+<ul>
+<li>查询条件中存在Order By，且Order By中涉及到的列与索引（指组合索引）中的列一致（列及列出现的顺序），并不要求所有索引列都存在于Order By中，只出现索引列的子集也可以；</li>
+<li>查询中可能需要用到Sort Merge Join，并且涉及到的所有列都存在于索引中（Index Full Scan可以消除Sort Merge Join，因为索引列此时是有序的）；</li>
+<li>查询条件中访问列的顺序与索引结构中的前导列一致；</li>
+<li>查询条件中存在Group By，且Group By中涉及到的列存在于索引中。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/5601-a70e08e255fb8b2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/858/format/webp" alt="img"></p>
+<p>图16 索引全扫描的处理过程</p>
+<p><strong>索引快速全扫描（Index Fast Full Scan）</strong></p>
+<p>  索引快速全扫描是Table Access Full的替代选择，当索引包含查询所需的所有列，并且索引中至少有一列具有NOT NULL约束时优化器会考虑使用索引快速全扫描。索引快速全扫描不能用于消除排序操作，因为在这种方式下优化器对数据的访问顺序并不遵循索引列已有的顺序。同时，与索引全扫描不同，索引快速全扫描会使用多块读的方式来扫描索引中的所有块（所有分支和叶子块）。</p>
+<p><strong>索引连接（Index Join）</strong></p>
+<p>  表查询条件中的多个列不单独存在于该表的某个组合索引中，但又可以被该表中包含不同列的索引（单值或复合索引）连接覆盖到，那么优化器可能会考虑使用索引连接这种访问路径。在使用索引连接的情况下，优化器可以避免进行全表扫描。同样需要注意的是，使用索引连接无法消除排序操作。</p>
+<p><strong>位图索引（Bitmap Index）</strong></p>
+<p>  位图索引为每个键值使用一组比特位，并使用一个映射函数将每个比特位的位置转换为rowid。优化器可以有效地合并与Where子句中的几个谓词对应的位图索引，并使用布尔操作来解析AND和OR操作。</p>
+<p>  如果在执行计划中看到的访问路径与我们所期望的不一样，这时候就需要检查对象（表和索引）的基数估计值是否正确，连接顺序是否能够满足我们预期的访问路径。</p>
+<h4 id="连接方法（Join-Method）"><a href="#连接方法（Join-Method）" class="headerlink" title="连接方法（Join Method）"></a>连接方法（Join Method）</h4><p>连接方法描述如何将来自两个数据操作符的数据连接在一起。我们可以通过查看执行计划中的Operation列来确定优化器使用的连接方法。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5601-4cce9145136fd99a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1078/format/webp" alt="img"></p>
+<p>图17 连接方法可以在Operation列中查看到</p>
+<p>  Oracle提供了多种连接方法和连接类型，以下进行详细说明。</p>
+<p><strong>哈希连接（Hash Join）</strong></p>
+<p>  哈希连接用于连接大型数据集。优化器使用两个表或数据源中较小的一个在内存中基于连接键构建哈希表。然后扫描较大的表，并对连接列执行相同的哈希算法。然后，优化器会探测之前在内存中构建的哈希表中的每个值，如果发现匹配，则返回匹配行。</p>
+<p><strong>嵌套循环连接（Nested Loops Join）</strong></p>
+<p>  嵌套循环连接适用于连接双方都是小数据集合，并对于其中一个表有比较高效的访问路径（如存在索引查找）的情形。在嵌套循环连接中，对于第一个表（外部表）中的每一行，优化器会通过高效的访问路径去访问第二个表（内部表）中的所有行。我们可以把它看作是两个嵌入的FOR循环。在Oracle 11g数据库中，嵌套循环连接的内部实现进行了更改，以进一步减少物理I&#x2F;O的总体延迟。因此我们可能会在执行计划的Operation列中看到两个嵌套循环连接（如图18所示），而在11g以前的Oracle版本中，我们只会看到一个嵌套循环连接。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5601-0e25e31d5cea291d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1078/format/webp" alt="img"></p>
+<p>图18 Nested Loop Join示例</p>
+<p><strong>排序合并连接（Sort Merge Join）</strong></p>
+<p>  当两个表之间的连接条件是非等值连接，例如，&lt;、&lt;&#x3D;、&gt;或&gt;&#x3D;时，排序合并连接的成本可能会更低。对于大型数据集合，排序合并连接比嵌套循环连接效率更高。一般来说，排序合并连接包括两个步骤：</p>
+<ul>
+<li>排序连接操作：连接双方在连接键上进行排序；</li>
+<li>合并连接操作：将排序后的列表合并起来。</li>
+</ul>
+<p>  如果参与连接的两个表中的其中一表存在可以消除该表连接字段排序操作的索引（索引本身有序），那么优化器会倾向于使用排序合并连接。在图19的案例中，优化器只需要对Sales表中的行进行排序（ID 5），而Products表中的行是来自于主键索引（ID 4）已经默认有序。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5601-6423d9aa8f374b58.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1078/format/webp" alt="img"></p>
+<p>图19 Sort Merge Join示例</p>
+<p>  从Oracle 12c第2个版本开始，我们还可以使用band join。Band join在某些存在between操作的连接中比排序合并连接更高效。</p>
+<p><strong>笛卡尔连接（Cartesian Join）</strong></p>
+<p>  优化器将来自一个数据源的每一行与来自另一个数据源的每一行连接起来，创建两个集合的笛卡尔积。通常情况下，只有当连接涉及的表数据集很小，或者一个或多个表与其他表都不存在连接条件时，优化器才会选择笛卡尔连接。笛卡尔连接并不常见，因此如果我们在执行计划中看到笛卡尔连接，那么就很有可能是基数估计值出现了问题。严格地来说，笛卡尔连接并不能算作一类特定的连接方法。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5601-65c7c6c13804103f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1078/format/webp" alt="img"></p>
+<p>图20 Cartesian Join示例</p>
+<h3 id="SQL优化"><a href="#SQL优化" class="headerlink" title="SQL优化"></a>SQL优化</h3><p>oracle数据库中SQL优化的目标是为了缩短sql语句的执行时间.到达到这个目的通常从以下三种方法选择:</p>
+<ol>
+<li><p>降低sql语句的资源消耗</p>
+</li>
+<li><p>并行执行sql语句</p>
+</li>
+<li><p>平衡系统的资源消耗</p>
+</li>
+</ol>
+<h4 id="通过索引优化"><a href="#通过索引优化" class="headerlink" title="通过索引优化"></a>通过索引优化</h4><p>通过创建索引,避免不必要的全表扫描从而降低资源消耗.</p>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><p>视图是一种虚表。视图建立在已有表的基础上，视图赖以建立的这些表成为基表。向视图提供数据内容的语句为SELECT语句，可以将视图理解为存储起来的SELECT语句 。</p>
+<p>视图的作用：</p>
+<ul>
+<li><p>可以保护表中的其他数据</p>
+</li>
+<li><p>视图能够简化用户的操作</p>
+</li>
+<li><p>当频繁的操作一个查询语句时，将这个查询语句创建成视图，便于操作。</p>
+</li>
+</ul>
+<h3 id="创建视图"><a href="#创建视图" class="headerlink" title="创建视图"></a>创建视图</h3><blockquote>
+<p>CREATE [OR REPLACE] [FORCE|NOFORCE] view 视图名称 [(列名1[,列名2…<br>AS<br>select语句<br>[WITH CHECK OPTION]<br>[WITH READ ONLY]</p>
+</blockquote>
+<p>​	OR REPLACE：若所创建的试图已经存在，ORACLE自动重建该视图； </p>
+<p>​	FORCE：不管基表是否存在ORACLE都会自动创建该视图； </p>
+<p>​	NOFORCE：只有基表都存在ORACLE才会创建该视图： </p>
+<p>​	WITH CHECK OPTION ： 插入或修改的数据行必须满足视图定义的约束； </p>
+<p>​	WITH READ ONLY ： 该视图上不能进行任何DML操作。 </p>
+<h2 id="同义词"><a href="#同义词" class="headerlink" title="同义词"></a>同义词</h2><p>同义词：它是给数据库中的对象起一个别名，可以和使用原对象一样去使用同义词</p>
+<p>​    同义词一般是给原对象取一个简单易记的名字</p>
+<p>创建语法：</p>
+<blockquote>
+<p> create synonym 同义词名 for 对象名;</p>
+</blockquote>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> synonym e <span class="keyword">for</span> emp;  <span class="comment">--给表创建同义词</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="SQL基础-DDL"><a href="#SQL基础-DDL" class="headerlink" title="SQL基础-DDL"></a>SQL基础-DDL</h1><p>使用ddl语句对数据库对象进行创建、修改、删除、清空等操作。</p>
+<h2 id="create语句"><a href="#create语句" class="headerlink" title="create语句"></a>create语句</h2><blockquote>
+<p>create 对象类型 对象名称 对象属性；</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--表空间创建</span></span><br><span class="line"><span class="keyword">create</span> tablespace ora datafile <span class="string">&#x27;/u01/app/oracle/oradata/bow/tab.dbf&#x27;</span> size <span class="number">2</span>G autoextend <span class="keyword">on</span> next <span class="number">100</span>M maxsize unlimited;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> tablespace TEST_20211009 <span class="comment">--表空间名</span></span><br><span class="line">datafile <span class="string">&#x27;C:\app\orastudy\oradata\orcl\TEST_20211009.DBF&#x27;</span> <span class="comment">--数据文件路径 </span></span><br><span class="line">size <span class="number">10</span>M <span class="comment">--初始大小</span></span><br><span class="line">autoextend <span class="keyword">on</span> next <span class="number">5</span>M <span class="comment">--自增长大小</span></span><br><span class="line">maxsize unlimited; <span class="comment">--最大大小（不限制）</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>用户创建语句</p>
+<blockquote>
+<p>create user 用户名 identified by 密码 default tablespace 表空间名 temporary tablespace 临时表空间名;</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--创建用户</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> orastudy identified <span class="keyword">by</span> oracle <span class="keyword">default</span> tablespace ora temporary tablespace temp;</span><br><span class="line"><span class="comment">--账号密码修改和解锁</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">user</span> scott identified <span class="keyword">by</span> oracle;</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">user</span> scott account unlock;</span><br><span class="line"><span class="comment">--用户赋权</span></span><br><span class="line"><span class="keyword">grant</span> dba <span class="keyword">to</span> ora; </span><br><span class="line"><span class="keyword">grant</span> DEBUG <span class="keyword">CONNECT</span> SESSION <span class="keyword">to</span> scott;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">create table</span> <span class="keyword">on</span> banktest <span class="keyword">to</span> scott; <span class="comment">--将某表空间中的建表操作权限赋给scott</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">create</span> session <span class="keyword">to</span> sun;            <span class="comment">--授予sun用户创建session的权限，即登陆权限</span></span><br><span class="line"><span class="keyword">grant</span> unlimited tablespace <span class="keyword">to</span> sun;  <span class="comment">--授予sun用户使用表空间的权限</span></span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">create table</span> <span class="keyword">to</span> sun;              <span class="comment">--授予创建表的权限</span></span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">drop</span> <span class="keyword">any</span> <span class="keyword">table</span> <span class="keyword">to</span> sun;               <span class="comment">--授予删除表的权限</span></span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">insert</span> <span class="keyword">any</span> <span class="keyword">table</span> <span class="keyword">to</span> sun;               <span class="comment">--插入表的权限</span></span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">update</span> <span class="keyword">any</span> <span class="keyword">table</span> <span class="keyword">to</span> sun;             <span class="comment">--修改表的权限</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--表创建</span></span><br><span class="line"><span class="keyword">create table</span> EMP</span><br><span class="line">(empno    NUMBER(<span class="number">4</span>) <span class="keyword">not null</span>,</span><br><span class="line">  ename    VARCHAR2(<span class="number">10</span>) <span class="keyword">unique</span>,<span class="comment">--唯一</span></span><br><span class="line">  job      VARCHAR2(<span class="number">9</span>) <span class="keyword">not null</span>, <span class="comment">--不为空约束</span></span><br><span class="line">  mgr      NUMBER(<span class="number">4</span>),</span><br><span class="line">  hiredate <span class="type">DATE</span>,</span><br><span class="line">  sal      NUMBER(<span class="number">7</span>,<span class="number">2</span>),</span><br><span class="line">  comm     NUMBER(<span class="number">7</span>,<span class="number">2</span>),</span><br><span class="line">  deptno   NUMBER(<span class="number">2</span>),</span><br><span class="line">  <span class="keyword">constraint</span> pk_empno <span class="keyword">primary key</span>(empno), <span class="comment">--主键</span></span><br><span class="line">  <span class="keyword">constraint</span> FK_DEPTNO <span class="keyword">foreign key</span>(DEPTNO)  </span><br><span class="line">  <span class="keyword">references</span> DEPT (DEPTNO),<span class="comment">--外键</span></span><br><span class="line">  <span class="keyword">constraint</span> ck_sal <span class="keyword">check</span> (sal<span class="operator">&gt;</span><span class="number">1000</span>) <span class="comment">--检查约束</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--创建序列</span></span><br><span class="line"><span class="keyword">create</span> sequence s_num</span><br><span class="line"><span class="keyword">start</span> <span class="keyword">with</span>  <span class="number">76</span></span><br><span class="line">increment <span class="keyword">by</span> <span class="number">8</span></span><br><span class="line">maxvalue <span class="number">99</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--创建索引</span></span><br><span class="line"><span class="keyword">create</span> index i_emp_ename <span class="keyword">on</span> emp(ename);</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--创建视图</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">view</span> v_emp <span class="keyword">as</span> <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp ;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="alter语句"><a href="#alter语句" class="headerlink" title="alter语句"></a>alter语句</h2><p>进行表中列添加。</p>
+<blockquote>
+<p>alter table 表名 add 列名 数据类型；</p>
+</blockquote>
+<p>示例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--添加列</span></span><br><span class="line"> <span class="keyword">alter table</span> emp_1008 <span class="keyword">add</span> phone <span class="type">char</span>(<span class="number">11</span>);</span><br></pre></td></tr></table></figure>
+
+<p>进行表列的修改。</p>
+<blockquote>
+<p>alter table 表名 modify 列名 数据类型；</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">--修改列</span></span><br><span class="line"><span class="keyword">alter table</span> emp_1008 modify phone number(<span class="number">11</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>进行表列删除。 </p>
+<blockquote>
+<p>alter table 表名 drop column 列名；</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--删除列</span></span><br><span class="line"><span class="keyword">alter table</span> emp_1008 <span class="keyword">drop</span> <span class="keyword">column</span> phone ;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>进行检查约束的添加。</p>
+<blockquote>
+<p>alter table 表名 add constraint 约束名 check（条件）；</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--添加约束</span></span><br><span class="line"><span class="keyword">alter table</span> emp_1008 <span class="keyword">add constraint</span> </span><br><span class="line">pk_emp1008 <span class="keyword">primary key</span> (empno); </span><br></pre></td></tr></table></figure>
+
+
+
+<p>添加非空约束。</p>
+<blockquote>
+<p>alter table 表名 modify  列名 constraint 约束名 not null；</p>
+<p>–不定义约束名添加非空约束。</p>
+<p>alter table 表名 modify  列名 not null；</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter table</span> emp_1008 modify job <span class="keyword">not null</span>;<span class="comment">--非空约束只能通过 modify 来添加</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>插入外键约束。同时在后面带上on delete cascade 实现 在外键表中删除外键数据时，对应表的记录被删除。使用on delete set null实现在外键数据被删除时，表中值为空。</p>
+<blockquote>
+<p>alter table 表名 add constraint 约束名 列名 references 外键表（外键列） on delete cascade;</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--父表删除子表置空</span></span><br><span class="line"><span class="keyword">alter table</span> emp_1008 <span class="keyword">add</span> constraints fk_emp_deptno1008 </span><br><span class="line"><span class="keyword">foreign key</span> (deptno) <span class="keyword">references</span> dept1008(deptno) <span class="keyword">on</span> <span class="keyword">delete</span> <span class="keyword">set</span> <span class="keyword">null</span>;</span><br><span class="line"><span class="comment">--父表删除子表也删除</span></span><br><span class="line"><span class="keyword">alter table</span> emp_1008 <span class="keyword">add</span> constraints fk_emp_deptno1008 </span><br><span class="line"><span class="keyword">foreign key</span> (deptno) <span class="keyword">references</span> dept1008(deptno) <span class="keyword">on</span> <span class="keyword">delete</span> cascade;</span><br></pre></td></tr></table></figure>
+
+<p>添加唯一约束；</p>
+<blockquote>
+<p>alter table 表名 add  constraint 约束名 unique (列名)；</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--添加唯一约束</span></span><br><span class="line"><span class="keyword">alter table</span> course  <span class="keyword">add  constraint</span> uk_course_cno <span class="keyword">unique</span> (cno);</span><br></pre></td></tr></table></figure>
+
+<p>删除约束；</p>
+<blockquote>
+<p>alter table 表名 drop constraint  约束名；</p>
+</blockquote>
+<p>禁用约束</p>
+<blockquote>
+<p>alter table 表名 add  constraint 约束名 unique (列名) disable ；或者alter table 表名 disable constraint 约束名 ；</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--停用约束</span></span><br><span class="line"><span class="keyword">alter table</span> sc disable <span class="keyword">constraint</span> ck_sc_score;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>启用约束</p>
+<blockquote>
+<p>alter table 表名 enable validate constraint 约束名；</p>
+<p>启用约束只对新插入值生效</p>
+<p>alter table 表名 enable novalidate validate constraint 约束名；</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--启用约束validate/novalidate</span></span><br><span class="line"><span class="keyword">alter table</span> sc enable novalidate <span class="keyword">constraint</span> ck_sc_score;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>修改用户</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 第一步 本地登录</span></span><br><span class="line">sqlplus <span class="operator">/</span> <span class="keyword">as</span> sysdba</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 第二步  system的账号</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">user</span> <span class="keyword">system</span> identified <span class="keyword">by</span> oracle;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 第三步 解锁</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">user</span> scott account unlock;</span><br><span class="line"><span class="comment">-- 第四步 设置密码</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">user</span> scott identified <span class="keyword">by</span> oracle;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="drop语句"><a href="#drop语句" class="headerlink" title="drop语句"></a>drop语句</h2><blockquote>
+<p>Drop 对象类型 对象名称;</p>
+</blockquote>
+<h2 id="truncate语句"><a href="#truncate语句" class="headerlink" title="truncate语句"></a>truncate语句</h2><blockquote>
+<p>truncate table 表名称；</p>
+</blockquote>
+<h1 id="SQL语句-DCL"><a href="#SQL语句-DCL" class="headerlink" title="SQL语句-DCL"></a>SQL语句-DCL</h1><p>赋权和撤销权限</p>
+<blockquote>
+<p>grant 权限 to 用户名;</p>
+<p>revoke 权限 to 用户名;</p>
+</blockquote>
+<p>grant resource,connect to ora;  –连接权限和资源权限</p>
+<p>grant create any table to ora;  –建表权限</p>
+<p>grant create any tablespace to ora;  –建表空间权限</p>
+<p>grant select any table to ora; –只读权限</p>
+<p>grant create any view to bw; –创建视图权限</p>
+<p>grant select any table to ora; –给ora用户预编译表的权限</p>
+<p>grant DEBUG CONNECT SESSION to ora –调试模式开启</p>
+<p><strong>grant dba to ora; –管理员权限</strong></p>
+<h1 id="rman"><a href="#rman" class="headerlink" title="rman"></a>rman</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--1</span></span><br><span class="line">rman target <span class="operator">/</span></span><br><span class="line">查看所有归档日志</span><br><span class="line"></span><br><span class="line"><span class="comment">--1</span></span><br><span class="line">list archivelog <span class="keyword">all</span>;</span><br><span class="line">对比控制文件、物理文件</span><br><span class="line"></span><br><span class="line"><span class="comment">--1</span></span><br><span class="line">crosscheck archivelog <span class="keyword">all</span>;</span><br><span class="line">复制</span><br><span class="line">crosscheck archivelog <span class="keyword">all</span>;</span><br><span class="line"></span><br><span class="line">查看过期归档日志</span><br><span class="line"></span><br><span class="line"><span class="comment">--1</span></span><br><span class="line">list expired archivelog <span class="keyword">all</span>;</span><br><span class="line">删除过期归档日志</span><br><span class="line"></span><br><span class="line"><span class="comment">--1</span></span><br><span class="line"><span class="keyword">delete</span> expired archivelog <span class="keyword">all</span>;</span><br><span class="line">删除指定日期归档日志</span><br><span class="line"></span><br><span class="line"><span class="comment">--1</span></span><br><span class="line"><span class="keyword">delete</span> archivelog <span class="keyword">all</span> completed before <span class="string">&#x27;SYSDATE - n&#x27;</span>;</span><br><span class="line">退出rman</span><br><span class="line"></span><br><span class="line"><span class="comment">--1</span></span><br><span class="line">exit;</span><br></pre></td></tr></table></figure>
+
+</article><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/lita4.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/headimage.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Yinjin Yao</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/cryingatnight/cryingatnight.github.io" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1816192779@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL%E5%9F%BA%E7%A1%80-DQL"><span class="toc-text">SQL基础-DQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E8%AF%AD%E6%B3%95"><span class="toc-text">查询语句语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%AB%E5%90%8D"><span class="toc-text">别名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">四则运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%BB%E9%87%8D%E5%A4%8D%E5%80%BC"><span class="toc-text">去重复值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#where-%E5%AD%90%E5%8F%A5"><span class="toc-text">where 子句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F"><span class="toc-text">排序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%87%BD%E6%95%B0"><span class="toc-text">数据类型转换函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2%E6%A0%BC%E5%BC%8F"><span class="toc-text">数据转换格式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%80%BC%E5%87%BD%E6%95%B0"><span class="toc-text">数值函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E5%87%BD%E6%95%B0"><span class="toc-text">日期函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0"><span class="toc-text">字符串函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0"><span class="toc-text">聚合函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E6%9F%A5%E8%AF%A2"><span class="toc-text">递归查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0"><span class="toc-text">开窗函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#partition-by"><span class="toc-text">partition by</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#order-by"><span class="toc-text">order by</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0"><span class="toc-text">排序开窗函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD%E5%87%BD%E6%95%B0"><span class="toc-text">条件判断函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#case-when-%E8%AF%AD%E5%8F%A5"><span class="toc-text">case when 语句</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#decode%E8%AF%AD%E5%8F%A5"><span class="toc-text">decode语句</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%8C%E8%BD%AC%E5%88%97%E5%92%8C%E5%88%97%E8%BD%AC%E8%A1%8C"><span class="toc-text">行转列和列转行</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#pivot%E6%A0%BC%E5%BC%8F"><span class="toc-text">pivot格式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#unpivot-%E5%88%97%E8%BD%AC%E8%A1%8C"><span class="toc-text">unpivot 列转行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#listagg%E5%88%97%E5%90%88%E5%B9%B6%E8%A1%8C"><span class="toc-text">listagg列合并行</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="toc-text">查询语句执行顺序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2"><span class="toc-text">多表查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E6%9F%A5%E8%AF%A2"><span class="toc-text">子查询</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E8%A1%8C%E5%AD%90%E6%9F%A5%E8%AF%A2"><span class="toc-text">单行子查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E8%A1%8C%E5%AD%90%E6%9F%A5%E8%AF%A2"><span class="toc-text">多行子查询</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#any-%E5%92%8Call-%E7%9A%84%E6%9B%BF%E4%BB%A3"><span class="toc-text">any 和all 的替代</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#in%E5%92%8Cexists-%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">in和exists 的使用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="toc-text">联合查询</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E5%90%88%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-text">集合操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A8%E8%BF%9E%E6%8E%A5"><span class="toc-text">表连接</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AC%9B%E5%8D%A1%E5%B0%94%E7%A7%AF"><span class="toc-text">笛卡尔积</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%9D%A1%E4%BB%B6%E5%92%8C%E8%BF%9E%E6%8E%A5%E7%B1%BB%E5%9E%8B"><span class="toc-text">连接条件和连接类型</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%AD%89%E5%BC%8F%E8%BF%9E%E6%8E%A5"><span class="toc-text">等式连接</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%B8%8D%E7%AD%89%E5%BC%8F%E8%BF%9E%E6%8E%A5"><span class="toc-text">不等式连接</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BA%A4%E5%8F%89%E8%BF%9E%E6%8E%A5"><span class="toc-text">交叉连接</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%87%AA%E7%84%B6%E8%BF%9E%E6%8E%A5"><span class="toc-text">自然连接</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%86%85%E8%BF%9E%E6%8E%A5"><span class="toc-text">内连接</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B7%A6%E5%A4%96%E8%BF%9E%E6%8E%A5"><span class="toc-text">左外连接</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%B3%E5%A4%96%E8%BF%9E%E6%8E%A5"><span class="toc-text">右外连接</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%85%A8%E5%A4%96%E8%BF%9E%E6%8E%A5"><span class="toc-text">全外连接</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL%E5%9F%BA%E7%A1%80-DML-TCL"><span class="toc-text">SQL基础-DML&amp;TCL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#DML%E8%AF%AD%E5%8F%A5"><span class="toc-text">DML语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#insert%E8%AF%AD%E5%8F%A5"><span class="toc-text">insert语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#update%E8%AF%AD%E5%8F%A5"><span class="toc-text">update语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#delete%E8%AF%AD%E5%8F%A5"><span class="toc-text">delete语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#merge%E8%AF%AD%E5%8F%A5"><span class="toc-text">merge语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCL%E8%AF%AD%E5%8F%A5"><span class="toc-text">TCL语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E5%BC%80%E5%A7%8B%E7%BB%93%E6%9D%9F"><span class="toc-text">事务开始结束</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E7%89%B9%E6%80%A7"><span class="toc-text">事务的特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98"><span class="toc-text">事务并发问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E9%94%81"><span class="toc-text">事务锁</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%81%E7%BA%A7%E5%88%AB"><span class="toc-text">锁级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E9%94%81%E6%AD%BB"><span class="toc-text">避免锁死</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E9%94%81%E6%AD%A5%E9%AA%A4"><span class="toc-text">解锁步骤</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL%E5%9F%BA%E7%A1%80-%E5%AF%B9%E8%B1%A1"><span class="toc-text">SQL基础-对象</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E7%A9%BA%E9%97%B4"><span class="toc-text">表空间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F"><span class="toc-text">数据存储方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A8%E7%A9%BA%E9%97%B4-1"><span class="toc-text">表空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%AE%B5"><span class="toc-text">数据段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8C%BA"><span class="toc-text">数据区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%9D%97"><span class="toc-text">数据块</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E5%92%8C%E8%A1%A8%E7%A9%BA%E9%97%B4"><span class="toc-text">表和表空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E7%A9%BA%E9%97%B4%E5%88%9B%E5%BB%BA"><span class="toc-text">表空间创建</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8"><span class="toc-text">表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%A6%E6%9D%9F"><span class="toc-text">约束</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BA%A6%E6%9D%9F%E7%B1%BB%E5%9E%8B"><span class="toc-text">约束类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BB%E9%94%AE%E7%BA%A6%E6%9D%9F%EF%BC%88pk-%EF%BC%89"><span class="toc-text">主键约束（pk_）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%94%AF%E4%B8%80%E7%BA%A6%E6%9D%9F%EF%BC%88uk-%EF%BC%89"><span class="toc-text">唯一约束（uk_）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%9D%9E%E7%A9%BA%E7%BA%A6%E6%9D%9F%EF%BC%88un-%EF%BC%89"><span class="toc-text">非空约束（un_）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F-fk"><span class="toc-text">外键约束(fk_)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E7%BA%A6%E6%9D%9F-ck"><span class="toc-text">检查约束(ck_)</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BA%A6%E6%9D%9F%E7%8A%B6%E6%80%81"><span class="toc-text">约束状态</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E5%88%9B%E5%BB%BA%E8%AF%AD%E5%8F%A5"><span class="toc-text">表创建语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%B4%E6%97%B6%E8%A1%A8%E5%88%9B%E5%BB%BA"><span class="toc-text">临时表创建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E8%A1%A8%E5%88%9B%E5%BB%BA"><span class="toc-text">分区表创建</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4%E5%88%86%E5%8C%BA%E5%88%9B%E5%BB%BA"><span class="toc-text">范围分区创建</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%E5%88%86%E5%8C%BA%E5%88%9B%E5%BB%BA"><span class="toc-text">列表分区创建</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E5%88%86%E5%8C%BA%E5%88%9B%E5%BB%BA"><span class="toc-text">哈希分区创建</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E5%88%86%E5%8C%BA%EF%BC%88RANGE-LIST-%E5%92%8C-RANGE-HASH%EF%BC%89"><span class="toc-text">组合分区（RANGE-LIST 和 RANGE-HASH）</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E8%A1%A8%E7%AE%A1%E7%90%86"><span class="toc-text">分区表管理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E5%88%86%E5%8C%BA"><span class="toc-text">添加分区</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%88%86%E5%8C%BA"><span class="toc-text">删除分区</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%88%AA%E6%96%AD%E5%88%86%E5%8C%BA"><span class="toc-text">截断分区</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E5%88%86%E5%8C%BA"><span class="toc-text">合并分区</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8B%86%E5%88%86%E5%88%86%E5%8C%BA"><span class="toc-text">拆分分区</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8E%A5%E5%90%88%E5%88%86%E5%8C%BA%EF%BC%88coalesce%EF%BC%89"><span class="toc-text">接合分区（coalesce）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%87%8D%E5%91%BD%E5%90%8D%E8%A1%A8%E5%88%86%E5%8C%BA"><span class="toc-text">重命名表分区</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E5%88%86%E5%8C%BA"><span class="toc-text">交换分区</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%88%86%E5%8C%BA"><span class="toc-text">查询分区</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E7%B4%A2%E5%BC%95%E4%BF%A1%E6%81%AF"><span class="toc-text">查询索引信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%8F%E5%88%97"><span class="toc-text">序列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%BA%8F%E5%88%97"><span class="toc-text">创建序列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%BA%8F%E5%88%97"><span class="toc-text">使用序列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-text">索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="toc-text">索引的创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="toc-text">索引的类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#B%E6%A0%91%E7%B4%A2%E5%BC%95"><span class="toc-text">B树索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%8D%E5%9B%BE%E7%B4%A2%E5%BC%95"><span class="toc-text">位图索引</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95tips"><span class="toc-text">索引tips</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E9%83%A8%E7%B4%A2%E5%BC%95local-index"><span class="toc-text">局部索引local index</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#oracle%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92"><span class="toc-text">oracle执行计划</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E8%B7%AF%E5%BE%84%EF%BC%88Access-Method%EF%BC%89"><span class="toc-text">访问路径（Access Method）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%96%B9%E6%B3%95%EF%BC%88Join-Method%EF%BC%89"><span class="toc-text">连接方法（Join Method）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL%E4%BC%98%E5%8C%96"><span class="toc-text">SQL优化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96"><span class="toc-text">通过索引优化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E5%9B%BE"><span class="toc-text">视图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%A7%86%E5%9B%BE"><span class="toc-text">创建视图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E4%B9%89%E8%AF%8D"><span class="toc-text">同义词</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL%E5%9F%BA%E7%A1%80-DDL"><span class="toc-text">SQL基础-DDL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#create%E8%AF%AD%E5%8F%A5"><span class="toc-text">create语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#alter%E8%AF%AD%E5%8F%A5"><span class="toc-text">alter语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#drop%E8%AF%AD%E5%8F%A5"><span class="toc-text">drop语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#truncate%E8%AF%AD%E5%8F%A5"><span class="toc-text">truncate语句</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL%E8%AF%AD%E5%8F%A5-DCL"><span class="toc-text">SQL语句-DCL</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#rman"><span class="toc-text">rman</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/1970/01/01/typora/%E5%BD%B1%E5%88%80RPA/" title="adaad"><img src="/img/lita3.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="adaad"/></a><div class="content"><a class="title" href="/1970/01/01/typora/%E5%BD%B1%E5%88%80RPA/" title="adaad">adaad</a><time datetime="2025-07-19T11:05:06.673Z" title="更新于 2025-07-19 19:05:06">2025-07-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/19/typora/docker/" title="无标题"><img src="/img/lita4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无标题"/></a><div class="content"><a class="title" href="/2025/07/19/typora/docker/" title="无标题">无标题</a><time datetime="2025-07-18T01:01:56.594Z" title="更新于 2025-07-18 09:01:56">2025-07-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/17/hello-world/" title="Hello World"><img src="/img/lita5.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2025/07/17/hello-world/" title="Hello World">Hello World</a><time datetime="2025-07-17T15:26:59.840Z" title="更新于 2025-07-17 23:26:59">2025-07-17</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/lita4.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2025 By Yinjin Yao</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.2</a></span></div><div class="footer_custom_text">感谢阅读</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="输入以搜索内容..." type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
