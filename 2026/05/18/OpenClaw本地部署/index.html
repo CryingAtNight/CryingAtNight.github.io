@@ -1,0 +1,401 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>OpenClaw本地部署 | Yinjin Yao的博客</title><meta name="author" content="Yinjin Yao"><meta name="copyright" content="Yinjin Yao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前置准备1：OpenClaw简介 OpenClaw官网：https:&#x2F;&#x2F;docs.openclaw.ai&#x2F;中文官网：https:&#x2F;&#x2F;openclaws.io&#x2F;zh&#x2F;  爆火的OpenClaw倒是什么？能干什么？ 真正能做事的Ai智能体：清理收件箱、发送邮件、管理日历。支持企业微信、飞书、钉钉与微信生态对话接入 区别于传统大模型，DeepSeek、ChatGPT等等，他们只能表现在文字上，提供一种解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenClaw本地部署">
+<meta property="og:url" content="https://cryingatnight.github.io/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:site_name" content="Yinjin Yao的博客">
+<meta property="og:description" content="前置准备1：OpenClaw简介 OpenClaw官网：https:&#x2F;&#x2F;docs.openclaw.ai&#x2F;中文官网：https:&#x2F;&#x2F;openclaws.io&#x2F;zh&#x2F;  爆火的OpenClaw倒是什么？能干什么？ 真正能做事的Ai智能体：清理收件箱、发送邮件、管理日历。支持企业微信、飞书、钉钉与微信生态对话接入 区别于传统大模型，DeepSeek、ChatGPT等等，他们只能表现在文字上，提供一种解">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cryingatnight.github.io/img/lita9.jpg">
+<meta property="article:published_time" content="2026-05-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-05-18T02:01:36.279Z">
+<meta property="article:author" content="Yinjin Yao">
+<meta property="article:tag" content="openclaw">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cryingatnight.github.io/img/lita9.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "OpenClaw本地部署",
+  "url": "https://cryingatnight.github.io/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/",
+  "image": "https://cryingatnight.github.io/img/lita9.jpg",
+  "datePublished": "2026-05-17T16:00:00.000Z",
+  "dateModified": "2026-05-18T02:01:36.279Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Yinjin Yao",
+      "url": "https://cryingatnight.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/headimage.png"><link rel="canonical" href="https://cryingatnight.github.io/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'OpenClaw本地部署',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/headimage.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">51</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-flask"></i><span> 实验室</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="http://121.199.61.105/"><i class="fa-fw fas fa-q"></i><span> 豆瓣网开发</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fuckornot.on.websim.com/"><i class="fa-fw fa fa-trophy"></i><span> 上不上AI评分系统</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fontawesome.com/icons"><i class="fa-fw fa fa-check-circle"></i><span> font-awesome v6 图标</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/lita9.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/headimage.png" alt="Logo"><span class="site-name">Yinjin Yao的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">OpenClaw本地部署</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa-solid fa-flask"></i><span> 实验室</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="http://121.199.61.105/"><i class="fa-fw fas fa-q"></i><span> 豆瓣网开发</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fuckornot.on.websim.com/"><i class="fa-fw fa fa-trophy"></i><span> 上不上AI评分系统</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fontawesome.com/icons"><i class="fa-fw fa fa-check-circle"></i><span> font-awesome v6 图标</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">OpenClaw本地部署</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-05-17T16:00:00.000Z" title="发表于 2026-05-18 00:00:00">2026-05-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-05-18T02:01:36.279Z" title="更新于 2026-05-18 10:01:36">2026-05-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%99%E7%A8%8B/">教程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="前置准备1：OpenClaw简介"><a href="#前置准备1：OpenClaw简介" class="headerlink" title="前置准备1：OpenClaw简介"></a>前置准备1：OpenClaw简介</h1><hr>
+<p>OpenClaw官网：<a target="_blank" rel="noopener" href="https://docs.openclaw.ai/">https://docs.openclaw.ai/</a><br>中文官网：<a target="_blank" rel="noopener" href="https://openclaws.io/zh/">https://openclaws.io/zh/</a></p>
+<p><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260412214654593.png"></p>
+<p>爆火的OpenClaw倒是什么？能干什么？</p>
+<p>真正能做事的Ai智能体：清理收件箱、发送邮件、管理日历。支持企业微信、飞书、钉钉与微信生态对话接入</p>
+<p>区别于传统大模型，DeepSeek、ChatGPT等等，他们只能表现在文字上，提供一种解决方案。但是OpenClaw不一样，他是真的能帮你去操作，付诸于行动！</p>
+<p>简单来说：传统大模型只有大脑，而OpenClaw是大脑+身体的完全体</p>
+<p>不同于只能在网页里聊天的DeepSeek和ChatGPT,OpenClaw是一个能接管你键鼠权限<br>的超级助理</p>
+<p>OpenClaw支持：WhatsApp、Telegram、Discord、iMessage等<br>OpenClaw支持企业微信等</p>
+<h2 id="OpenClaw应用场景"><a href="#OpenClaw应用场景" class="headerlink" title="OpenClaw应用场景"></a>OpenClaw应用场景</h2><hr>
+<p><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260412215218095.png"></p>
+<ol>
+<li>自动化运维：一句话部署Docker容器，查询系统负载</li>
+<li>信息搜集：<strong>自动</strong>打开浏览器，抓取10个竞品网站的价格并生成Excl</li>
+<li>办公提效：整理电脑桌面杂乱的PDF发票，按日期重命名并归档</li>
+</ol>
+<h1 id="前置准备2：安装OpenClaw需要什么？"><a href="#前置准备2：安装OpenClaw需要什么？" class="headerlink" title="前置准备2：安装OpenClaw需要什么？"></a>前置准备2：安装OpenClaw需要什么？</h1><hr>
+<p><strong>目前安装OpenClaw有两种方案</strong></p>
+<ol>
+<li>云部署(阿里云、腾讯云)</li>
+<li>本地部署</li>
+</ol>
+<p><strong>本地部署要求</strong></p>
+<ol>
+<li>Nodejs(&#x3D;22)版本</li>
+<li><code>pnpm</code>仅在从源代码构建时需要</li>
+<li>OS:Windows10+、mac0S12+或Linux(Ubuntu20.04+、Debian11+)</li>
+<li>Git</li>
+<li>科学上网！</li>
+</ol>
+<p><strong>Windows特别要求</strong><br>官方特别说明系统的选择：macOS、Linux或通过WSL2<code>(wsL,即Windows Subsystem for Linux)</code>的Windows</p>
+<h2 id="安装Nodejs"><a href="#安装Nodejs" class="headerlink" title="安装Nodejs"></a>安装Nodejs</h2><p>下载地址：<a target="_blank" rel="noopener" href="https://nodejs.org/zh-cn">https://nodejs.org/zh-cn</a></p>
+<blockquote>
+<p>[!温馨提示]<br>不要超过25的版本，亲测会出问题！（大坑）</p>
+</blockquote>
+<h2 id="安装pnpm"><a href="#安装pnpm" class="headerlink" title="安装pnpm"></a>安装<code>pnpm</code></h2><p>Nodejs安装完成之后就有了<code>npm</code>我们可以通过<code>npm</code>安装<code>pnpm</code></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install <span class="literal">-g</span> pnpm</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装WSL2"><a href="#安装WSL2" class="headerlink" title="安装WSL2"></a>安装WSL2</h2><p>在管理员模式下打开PowerShell,输入wsl –install命令，然后重新启动计算机</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl <span class="literal">--install</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>[!温馨提示]<br>这里官网说只需要重启一次就行了，但是事实上，可以能需要2-3次。<br>特别提示，是<strong>重启</strong>，不是关机再开机</p>
+</blockquote>
+<p>可能会出现下面错误，要再次重启<br><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260412220331117.png"></p>
+<h2 id="安装Ubuntu系统"><a href="#安装Ubuntu系统" class="headerlink" title="安装Ubuntu系统"></a>安装Ubuntu系统</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ws1 <span class="literal">--list</span> <span class="literal">--verbose</span> <span class="comment">#列出已安装的发行版及其WSL版本</span></span><br><span class="line">ws1 <span class="literal">--install</span> <span class="literal">-d</span> Ubuntu<span class="literal">-24</span>.<span class="number">04</span></span><br></pre></td></tr></table></figure>
+
+<p>上面不行就这个：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl <span class="literal">--list</span> <span class="literal">--online</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260412220658587.png"></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl <span class="literal">--install</span> <span class="literal">-d</span> Ubuntu <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p>注册自己的用户<br>用户：<code>yyj</code><br>密码：<code>123456</code></p>
+<p><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260412214230062.png"></p>
+<p>安装完后在terminal框输入<code>wsl</code>命令就可以重新进入Ubuntu终端</p>
+<h2 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h2><p>下载地址<a target="_blank" rel="noopener" href="https://git-scm.com/">https://git-scm.com/</a></p>
+<h1 id="Windows下安装OpenClaw"><a href="#Windows下安装OpenClaw" class="headerlink" title="Windows下安装OpenClaw"></a>Windows下安装OpenClaw</h1><hr>
+<h2 id="快速安装"><a href="#快速安装" class="headerlink" title="快速安装"></a>快速安装</h2><p>在管理员模式下打开<code>PowerShell</code>,并进入<code>wls</code>执行以下命令</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">curl</span> <span class="literal">-fsSL</span> https://openclaw.ai/install.sh | bash</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260412221922298.png"></p>
+<p>它会检查环境，并自动安装依赖</p>
+<blockquote>
+<p>再安装的过程中，有些电脑是无感知的。你需要做的就是保证自己的网络稳定并等待</p>
+</blockquote>
+<p>官方解决方法：<a target="_blank" rel="noopener" href="https://docs.openclaw.ai/zh-CN/platforms/linux#%E7%B3%BB%E7%BB%9F%E6%8E%A7%E5%88%B6%EF%BC%88systemd-%E7%94%A8%E6%88%B7%E5%8D%95%E5%85%83%EF%BC%89">系统控制（systemd 用户单元）</a></p>
+<p>国内指令：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">curl</span> <span class="literal">-fsSL</span> https://<span class="built_in">open-claw</span>.org.cn/<span class="built_in">install-cn</span>.sh | bash</span><br></pre></td></tr></table></figure>
+
+<p>这个可以看见安装过程</p>
+<p><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260412230516226.png"></p>
+<p>看到这里就启动安装了：<br><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260412232802045.png"><br>选择Yes-&gt;QuickStart</p>
+<p>我订阅了MiniMax，选择MiniMax-&gt;默认当前模型<br><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260412233039397.png"></p>
+<p>可以选择Qwen，千问有免费的</p>
+<p>select channel：Skip for now先跳过</p>
+<p>Configure skills now? (recommended) 先no,先实现快速安装<br><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260412233827254.png"></p>
+<p><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260412234016141.png"></p>
+<h2 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h2><p><strong>我再安装过程中遇到的问题：</strong></p>
+<ol>
+<li>网络不稳定安装失败</li>
+<li>Nodejs版本25.×</li>
+<li>WSL安装失败（无法安装Ubuntu)</li>
+<li>安装完毕报错：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error:systemctl is-enabled unavailable:Command failed:system</span><br></pre></td></tr></table></figure></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/.config/systemd/user</span><br><span class="line">vim ~/.config/systemd/user/openclaw-gateway.service</span><br></pre></td></tr></table></figure>
+
+<p>填入一下配置，内容示例（根据 OpenClaw 实际路径调整）</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">Unit</span>]</span><br><span class="line"><span class="string">Description=OpenClaw</span> <span class="attr">Gateway (profile:</span> <span class="string">&lt;profile&gt;,</span> <span class="string">v&lt;version&gt;)</span></span><br><span class="line"><span class="string">After=network-online.target</span></span><br><span class="line"><span class="string">Wants=network-online.target</span></span><br><span class="line"></span><br><span class="line">[<span class="string">Service</span>]</span><br><span class="line"><span class="string">ExecStart=/usr/local/bin/openclaw</span> <span class="string">gateway</span> <span class="string">--port</span> <span class="number">18789</span></span><br><span class="line"><span class="string">Restart=always</span></span><br><span class="line"><span class="string">RestartSec=5</span></span><br><span class="line"><span class="string">TimeoutStopSec=30</span></span><br><span class="line"><span class="string">TimeoutStartSec=30</span></span><br><span class="line"><span class="string">SuccessExitStatus=0</span> <span class="number">143</span></span><br><span class="line"><span class="string">KillMode=control-group</span></span><br><span class="line"></span><br><span class="line">[<span class="string">Install</span>]</span><br><span class="line"><span class="string">WantedBy=default.target</span></span><br></pre></td></tr></table></figure>
+
+<p>重启服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl --user <span class="built_in">enable</span> --now openclaw-gateway.service</span><br></pre></td></tr></table></figure>
+
+
+<p>如果遇到这个问题：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Health check failed: gateway closed (1006 abnormal closure (no close frame)): no close reason</span><br><span class="line">  Gateway target: ws://127.0.0.1:18789</span><br><span class="line">  Source: <span class="built_in">local</span> loopback</span><br><span class="line">  Config: /home/yyj/.openclaw/openclaw.json</span><br><span class="line">  Bind: loopback</span><br></pre></td></tr></table></figure>
+
+<p>这运行这个：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openclaw doctor --repair</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openclaw gateway</span><br></pre></td></tr></table></figure>
+<p><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260413012854054.png"></p>
+<p>打开ui<br><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260413012843081.png"></p>
+<h1 id="OpenClaw接入飞书"><a href="#OpenClaw接入飞书" class="headerlink" title="OpenClaw接入飞书"></a>OpenClaw接入飞书</h1><hr>
+<p><strong>接入飞书三部曲：</strong></p>
+<ol>
+<li>创建飞书应用</li>
+<li>配置OpenClaw</li>
+<li>启动并测试</li>
+</ol>
+<h2 id="创建飞书应用"><a href="#创建飞书应用" class="headerlink" title="创建飞书应用"></a>创建飞书应用</h2><p><strong>第一步</strong>：打开飞书开放平台并注册账号<a target="_blank" rel="noopener" href="https://open.feishu.cn/">https://open.feishu.cn</a>,注册流程按提示即可完成<br><strong>第二步</strong>：<strong>开发者后台</strong>-&gt;创建企业自建应用-&gt;创建<br><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260504183609908.png"></p>
+<p><strong>第三步</strong>：获取应用凭证</p>
+<ul>
+<li>App ID</li>
+<li>App Secret<br><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260504183802126.png"></li>
+</ul>
+<p><strong>第四步</strong>：添加应用能力<br><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260504183955077.png"></p>
+<p><strong>第五步</strong>：配置应用权限<br>这里我们添加聊天与群组权限，注意应用身份权限和用户身份权限都要开通，可以搜索<code>im</code><br>统一选中</p>
+<ol>
+<li><p>应用身份权限tenant_access_token<br> <img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260504184243548.png"></p>
+</li>
+<li><p>用户身份权限user_access_token<br> <img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260504184723758.png"></p>
+</li>
+</ol>
+<p><strong>第六步</strong>：启动机器人的能力</p>
+<p>再这个过程中，点击保存会失败，所以需要运行一个长连接才能保存，可以点击弹出文本中<br>的超链接，利用Python形式创建长连接<br><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260504235434370.png"></p>
+<p><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260505000617553.png"></p>
+<p><a href="%5B%5Bhttps://open.feishu.cn/document/server-docs/server-side-sdk%5D(https://open.feishu.cn/document/server-docs/event-subscription-guide/event-subscription-configure-/request-url-configuration-case%5D(https://open.feishu.cn/document/server-docs/event-subscription-guide/event-subscription-configure-/request-url-configuration-case#1c227849)">官方SDK</a></p>
+<p>随便创建一个py文件用vscode打开</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install lark-oapi -U -i https://pypi.tuna.tsinghua.edu.cn/simple/</span><br></pre></td></tr></table></figure>
+
+<p>比如：demo.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> lark_oapi <span class="keyword">as</span> lark</span><br><span class="line"></span><br><span class="line"><span class="comment">## P2ImMessageReceiveV1 为接收消息 v2.0；CustomizedEvent 内的 message 为接收消息 v1.0。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">do_p2_im_message_receive_v1</span>(<span class="params">data: lark.im.v1.P2ImMessageReceiveV1</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;[ do_p2_im_message_receive_v1 access ], data: <span class="subst">&#123;lark.JSON.marshal(data, indent=<span class="number">4</span>)&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">do_message_event</span>(<span class="params">data: lark.CustomizedEvent</span>) -&gt; <span class="literal">None</span>:</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;[ do_customized_event access ], type: message, data: <span class="subst">&#123;lark.JSON.marshal(data, indent=<span class="number">4</span>)&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line">event_handler = lark.EventDispatcherHandler.builder(<span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span>) \</span><br><span class="line"></span><br><span class="line">.register_p2_im_message_receive_v1(do_p2_im_message_receive_v1) \</span><br><span class="line"></span><br><span class="line">.register_p1_customized_event(<span class="string">&quot;out_approval&quot;</span>, do_message_event) \</span><br><span class="line"></span><br><span class="line">.build()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line"></span><br><span class="line">cli = lark.ws.Client(<span class="string">&quot;YOUR_APP_ID&quot;</span>, <span class="string">&quot;YOUR_APP_SECRET&quot;</span>,</span><br><span class="line"></span><br><span class="line">event_handler=event_handler,</span><br><span class="line"></span><br><span class="line">log_level=lark.LogLevel.DEBUG)</span><br><span class="line"></span><br><span class="line">cli.start()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+<p>要修改这两个参数<code>&quot;YOUR_APP_ID&quot;</code>, <code>&quot;YOUR_APP_SECRET&quot;</code><br>去<strong>凭证与基础信息</strong>获取<br>然后运行，显示这样则成功<br><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260505002752934.png"></p>
+<p><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260505002834160.png"></p>
+<p><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260505003305891.png"></p>
+<p>然后创建版本-&gt;更新发布</p>
+<h2 id="配置OpenClaw"><a href="#配置OpenClaw" class="headerlink" title="配置OpenClaw"></a>配置OpenClaw</h2><p><strong>第一步</strong>：再<code>wsl</code>下安装Feishu插件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openclaw plugins install @openclaw/feishu</span><br></pre></td></tr></table></figure>
+<p><strong>第二步</strong>：通过向导配置（推荐）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#运行以下命令，根据提示粘贴App ID和App secret:</span></span><br><span class="line">openclaw channels add</span><br></pre></td></tr></table></figure>
+
+<p>然后选择yes</p>
+<p>◇  Select a channel<br>│  Feishu&#x2F;Lark (飞书)<br>│<br>◆  Install Feishu plugin?<br>│  ● Download from npm (@openclaw&#x2F;feishu)</p>
+<p>选择<strong>Feishu</strong>,然后输入您在第一步获取的凭证即可<br><strong>第三步</strong>：通过配置文件配置<br>编辑<code>~/.openclaw/openclaw.json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	 channels<span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">        feishu<span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">        enabled<span class="punctuation">:</span><span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">        dePolicy<span class="punctuation">:</span><span class="string">&quot;pairing&quot;</span><span class="punctuation">,</span></span><br><span class="line">        accounts<span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">            main<span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">                appId<span class="punctuation">:</span> <span class="string">&quot;cli_xxx&quot;</span><span class="punctuation">,</span></span><br><span class="line">                appSecret<span class="punctuation">:</span> <span class="string">&quot;xxx&quot;</span><span class="punctuation">,</span></span><br><span class="line">                botName<span class="punctuation">:</span> <span class="string">&quot;我的AI助手&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="启动并测试"><a href="#启动并测试" class="headerlink" title="启动并测试"></a><strong>启动并测试</strong></h2><p><strong>第一步</strong>：启动网关</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openclaw gateway</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260517134640190.png"></p>
+<p><strong>第二步</strong>：发送测试消息，在飞书中找到您创建的机器人，发送一条消息<br><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260517135120322.png"><br>打开应用<br><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260517193956001.png"><br><strong>第三步</strong>：配对授权<br>默认情况下，机器人会回复一个<strong>配对码</strong>。您需要批准此代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openclaw pairing approve feishu &lt;配对码&gt;</span><br></pre></td></tr></table></figure>
+
+<p>批准后即可正常对话。</p>
+<h1 id="通过QQ操作OpenClaw"><a href="#通过QQ操作OpenClaw" class="headerlink" title="通过QQ操作OpenClaw"></a>通过QQ操作OpenClaw</h1><hr>
+<p><a target="_blank" rel="noopener" href="https://q.qq.com/">QQ开发平台</a></p>
+<p>创建机器人<br><img src="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/file-20260415094540295.png"></p>
+<p><strong>OpenClaw原生接入流程</strong><br>1.安装OpenClaw开源社区QQBot插件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openclaw plugins install @tencent-connect/openclaw-qqbot@latest</span><br></pre></td></tr></table></figure>
+
+<p>2.配置绑定当前QQ机器人</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openclaw channels add --channel qqbot --token <span class="string">&quot;[AppID]:[AppSecret]&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>3.重启本地OpenClaw.服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openclaw gateway restart</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://cryingatnight.github.io">Yinjin Yao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://cryingatnight.github.io/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/">https://cryingatnight.github.io/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://cryingatnight.github.io" target="_blank">Yinjin Yao的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/openclaw/">openclaw</a></div><div class="post-share"><div class="social-share" data-image="/img/lita9.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/05/08/Alembic%E7%9A%84%E4%BD%BF%E7%94%A8/" title="Alembic的使用"><img class="cover" src="/img/lita2.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Alembic的使用</div></div><div class="info-2"><div class="info-item-1">Alembic的使用 简介Alembic 是 SQLAlchemy 官方推荐的数据库迁移工具，用于安全地管理数据库结构（schema）的版本变更，避免手动改表或重建数据库。以下是 Alembic 的标准使用流程，适用于 FastAPI、Flask 等基于 SQLAlchemy 的项目。 一、安装 Alembic12345# 使用 pip pip install alembic # 或使用 uv（如果你用 uv 管理依赖） uv add alembic  二、初始化 Alembic 仓库在 项目根目录（通常是 backend/）运行： 1alembic init alembic  这会生成以下结构： 123456backend/├── alembic/               # 迁移脚本目录│   ├── versions/          # 自动生成的迁移文件放这里│   ├── env.py             # 迁移环境配置（关键！）│   └── script.py.mako     # 迁移脚本模板└── alembic.ini            # ...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/headimage.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Yinjin Yao</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">51</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">37</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/cryingatnight/cryingatnight.github.io"><i class="fab fa-github"></i><span>关注</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/cryingatnight/cryingatnight.github.io" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1816192779@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E5%87%86%E5%A4%871%EF%BC%9AOpenClaw%E7%AE%80%E4%BB%8B"><span class="toc-text">前置准备1：OpenClaw简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenClaw%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">OpenClaw应用场景</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E5%87%86%E5%A4%872%EF%BC%9A%E5%AE%89%E8%A3%85OpenClaw%E9%9C%80%E8%A6%81%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">前置准备2：安装OpenClaw需要什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Nodejs"><span class="toc-text">安装Nodejs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85pnpm"><span class="toc-text">安装pnpm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85WSL2"><span class="toc-text">安装WSL2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Ubuntu%E7%B3%BB%E7%BB%9F"><span class="toc-text">安装Ubuntu系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Git"><span class="toc-text">安装Git</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows%E4%B8%8B%E5%AE%89%E8%A3%85OpenClaw"><span class="toc-text">Windows下安装OpenClaw</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85"><span class="toc-text">快速安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%81%87%E5%88%B0%E9%97%AE%E9%A2%98"><span class="toc-text">遇到问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OpenClaw%E6%8E%A5%E5%85%A5%E9%A3%9E%E4%B9%A6"><span class="toc-text">OpenClaw接入飞书</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E9%A3%9E%E4%B9%A6%E5%BA%94%E7%94%A8"><span class="toc-text">创建飞书应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEOpenClaw"><span class="toc-text">配置OpenClaw</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%B9%B6%E6%B5%8B%E8%AF%95"><span class="toc-text">启动并测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%9A%E8%BF%87QQ%E6%93%8D%E4%BD%9COpenClaw"><span class="toc-text">通过QQ操作OpenClaw</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/" title="OpenClaw本地部署"><img src="/img/lita9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OpenClaw本地部署"/></a><div class="content"><a class="title" href="/2026/05/18/OpenClaw%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/" title="OpenClaw本地部署">OpenClaw本地部署</a><time datetime="2026-05-18T02:01:36.279Z" title="更新于 2026-05-18 10:01:36">2026-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/05/08/Alembic%E7%9A%84%E4%BD%BF%E7%94%A8/" title="Alembic的使用"><img src="/img/lita2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Alembic的使用"/></a><div class="content"><a class="title" href="/2026/05/08/Alembic%E7%9A%84%E4%BD%BF%E7%94%A8/" title="Alembic的使用">Alembic的使用</a><time datetime="2026-05-09T02:48:44.162Z" title="更新于 2026-05-09 10:48:44">2026-05-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/26/LangChain%E4%BD%BF%E7%94%A8%E6%A6%82%E8%BF%B0/" title="LangChain使用概述"><img src="/img/lita9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LangChain使用概述"/></a><div class="content"><a class="title" href="/2025/09/26/LangChain%E4%BD%BF%E7%94%A8%E6%A6%82%E8%BF%B0/" title="LangChain使用概述">LangChain使用概述</a><time datetime="2026-04-20T08:26:51.506Z" title="更新于 2026-04-20 16:26:51">2026-04-20</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2025 - 2026 By Yinjin Yao</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.2</a></span></div><div class="footer_custom_text">感谢阅读</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="输入以搜索内容..." type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
